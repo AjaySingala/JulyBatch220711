@@ -1,0 +1,302 @@
+W1: RDBMS: MySQL
+W2: Python
+W3: Scala / AWS
+W4: Spark / SparkSQL - Project starts (Scala Spark)
+W5: DataWarehousing, Apache Airflow, AWS EMR...
+W6: Project - Presentation on Thursday.
+
+Mondays: 1:1s with trainer
+Tue/Wed: QC
+
+Portfolios: 
+
+Mock Interview
+Client Intervention
+
+Practice coding exercises.
+
+
+MySQL:
+RDBMS:
+RDBMS vs DBMS:
+DBMS the schema (tables) cannot be "related" to each other.
+	We cannot create dependencies.
+RDBMS: We can create relations and have dependencies by creating Primary Keys (PK) and Forgeign Keys (FK)
+
+PK: unique values,  
+RDBMS have a provision to auto-generate the PK value (if it is an integer).
+FK: Is used to relate data in one table with another table based on the PK of the other table.
+FK: Is a column in a table that references the PK of another table.
+FK: there can be multiple FKs in a single table.
+
+customer places an order for an product.
+In RDBMS, it is always better to have a PK in ALL TABLES.
+
+Indexes:
+SELECT * FROM Customers
+WHERE CustomerId = 101
+
+SELECT * FROM Customers
+WHERE Firstname = 'John'
+
+Keren, Hyung: #1
+Kaya: no diff. Same time for both.
+
+When you create a PK on a table, it will automatically create an INDEX on that column for table.
+
+You can also create indexes of your own.
+
+SELECT * FROM Customers
+WHERE EmailId = 'ajay.singala@revature.com'
+
+SQL: Structured Query Language
+DML - Data Manipulation Language.
+	INSERT, UPDATE, DELETE
+DDL - Data Definition Language.
+	TRUNCATE, DROP, CREATE, ALTER
+DQL - Data Query Language.
+	SELECT
+DCL - Data Control Language.
+	GRANT, REVOKE
+TCL - Transaction Control Language.
+	ROLLBACK, COMMIT
+	
+	
+	BEGIN TRANSACTION
+		INSERT ...
+		INSERT ...
+		UPDATE ...
+		
+		IF SUCCESS THEN
+			COMMIT
+		ELSE
+			ROLLBACK
+	END
+
+DELETE FROM Customers is same as TRUNCATE TABLE customers
+
+
+Exercise:
+Schema for a typical bank.
+what tables?
+columns in the table?
+PK and FK relationships as well.
+
+CREATE TABLE Customers (
+   Id INT NOT NULL AUTO_INCREMENT,
+   Fname VARCHAR(50),
+   Lname VARCHAR(50),
+   Primary Key (Id)
+);
+   
+CREATE TABLE Orders (
+	OrderId INT NOT NULL AUTO_INCREMENT,
+	OrderDate DATETIME NOT NULL,
+	CustomerId INT NOT NULL,
+	Primary Key (OrderId),
+	FOREIGN KEY (CustomerId) REFERENCES Customers(Id)
+);
+
+SELECT ....
+FROM Orders o
+JOIN Customers c on c.ID = o.customerId 
+
+Referential Integrity
+	Ensuring data integrity by not allowing to create records in FK columns that do not exist in PK.
+	Trying to delete a PK that has FK references in other tables with data existing produces an error.
+	CASCADE DELETES
+	
+Data Types:
+String Data Types:
+VARCHAR(size): Variable length string. from 0 to 65535. Can have alphabets, numbers, special chars (! # % ^...)
+	VARCHAR(50), VARCHAR(100)
+CHAR(size): Fixed length string. 0 - 255. Default size is 1.
+ENUM(val1, val2, val3...): Any one of the givne values. Max 65535 values.
+	AccountType ENUM('Savings', 'Checking', 'Loan')
+SET(val1, val2, val3...): 0 or more values of the given values. Max of 64 values.
+
+Numeric Data Types:
+INT / INTEGER: -2147483648 to 2147483647
+BOOL / BOOLEAN: 0 is FALSE. Any non-zero number is TRUE.
+FLOAT(size, decimals):
+DOUBLE(size, decimals):
+DECIMAL(size, decimals):
+
+Date and Time Data Types:
+DATE: YYYY-MM-DD. '1000-01-01' to '9999-12-31'
+DATETIME: YYYY-MM-DD hh:mm:ss. '1000-01-01 00:00:00' to '9999-12-31 23:59:59'
+TIME: hh:mm:ss
+YEAR: 1000 - 9999. For e.g.; 2022.
+TIMESTAMP: For e.g.; '2022-07-11 13:00:00 UTC'
+	Usually used for audit logs.
+	
+BLOB: Binary Large Objects. Max size is 65535 bytes of data.
+LONGBLOB: for larger binary objects.
+
+DML and DQL:
+CRUD Operations:
+CREATE RETRIEVE UPDATE DELETE - CRUD.
+
+INSERT
+INSERT INTO <tablename> (col1, col2, col3,...coln) VALUES (val1, val2, val3,...valn)
+
+INSERT INTO Customers (Id, Fname, LName, State, City) VALUES (101, 'John', 'Smith', 'MA', 'Boston')
+
+If "Id" was the PK and marked as AUTO_INCREMENT, do not specify the value for it.
+INSERT INTO Customers (Fname, LName, State, City) VALUES ('John', 'Smith', 'MA', 'Boston')
+
+INSERT INTO Customers () VALUES ('John', 'Smith', 'MA', 'Boston')
+
+INSERT INTO Customers () VALUES ('Boston', 'John', 'Smith', 'MA')
+
+SELECT:
+SELECT col1, col2, col3,...coln
+FROM tablename
+WHERE cond1
+AND cond2
+AND cond3
+OR cond4
+
+SELECT ....
+FROM table1
+JOIN table2 ON join_criteria
+
+SELECT o.OrderId, o.OrderDate, o.CustomerId, c.Fname, c.Lastname, c.City
+FROM Orders o
+JOIN Customers c ON o.CustomerId = o.CustomerId
+
+
+UPDATE:
+UPDATE tablename
+SET col1 = val1, col2 = val2, coln = valn .....
+WHERE cond1
+
+UPDATE Customers
+SET Status = 'Inactive'
+WHERE Status IS NULL
+
+
+DELETE:
+DELETE FROM tablename
+WHERE cond1
+
+DELETE FROM Customers
+WHERE Firstname IS NULL
+AND Lastname IS NULL
+
+
+DDL:
+CREATE: create tables, indexes, views, stored procedures, functions, databases.
+CREATE TABLE tablename (
+	col1 datatype [constraint],
+	col2 datatype [constraint],
+	col3 datatype [constraint],
+	:
+	:
+	coln datatype [constraint],
+	PRIMARY KEY(col),
+	FOREIGN KEY(col) REFERENCES pk_table(pk_col)
+)
+
+CREATE TABLE Customers (
+   Id INT NOT NULL AUTO_INCREMENT,
+   Fname VARCHAR(50),
+   Lname VARCHAR(50),
+   Primary Key (Id)
+);
+   
+CREATE TABLE Orders (
+	OrderId INT NOT NULL AUTO_INCREMENT,
+	OrderDate DATETIME NOT NULL,
+	CustomerId INT NOT NULL,
+	Primary Key (OrderId),
+	FOREIGN KEY (CustomerId) REFERENCES Customers(Id)
+);
+
+ALTER:
+ALTER TABLE tablename
+ADD colname datatype;
+
+ALTER TABLE tablename
+DROP COLUMN colname;
+
+ALTER TABLE tablename
+MODIFY COLUMN colname new_data_type;
+
+TRUNCATE: Delete ALL rows in the table, but not the table itself.
+TRUNCATE TABLE tablename;
+
+DROP: tables, views, indexes...
+DROP TABLE: Delete the table and all data in the table.
+DROP TABLE tablename;
+
+
+IF EXISTS tablename THEN DROP tablename
+IF NOT EXISTS tablename THEN 
+CREATE TABLE tablename (...)
+
+
+SELECT statement:
+=================
+SELECT * FROM Customers
+
+SELECT Id, Firstname, Lastname
+FROM Customers
+
+SELECT Id, Firstname, Lastname
+FROM Customers
+WHERE City = 'Boston'
+
+SELECT Id, Firstname, Lastname
+FROM Customers
+WHERE City = 'Boston'
+AND Status = 'Inactive'
+
+SELECT Id, Firstname, Lastname
+FROM Customers
+WHERE City = 'Boston'
+OR City = 'Dallas'
+
+SELECT Id, Firstname, Lastname
+FROM Customers
+WHERE (City = 'Boston'
+OR City = 'Dallas')
+AND Status = 'Inactive'
+
+AND takes precedence over OR
+
+SELECT Id, Firstname, Lastname
+FROM Customers
+WHERE (City = 'Boston' AND Status = 'Inactive')
+OR (City = 'Dallas' AND Status = 'Active')
+
+Unexpected results if () not provided in the right places:
+SELECT Id, Firstname, Lastname
+FROM Customers
+WHERE City = 'Boston' AND Status = 'Inactive'
+OR City = 'Dallas' AND Status = 'Active'
+
+SELECT * FROM  Customers
+WHERE Status IS NULL
+
+Wildcard: LIKE:
+SELECT * FROM  Customers
+WHERE Firstname LIKE 'A%'
+
+SELECT * FROM  Customers
+WHERE Firstname LIKE '%a'
+
+SELECT * FROM  Customers
+WHERE Firstname LIKE '%ar%'
+
+
+BETWEEN-AND:
+SELECT * FROM  Orders
+WHERE OrderDate BETWEEN '2022-01-01' AND '2022-03-31'
+
+SELECT * FROM  Orders
+WHERE OrderDate NOT BETWEEN '2022-01-01' AND '2022-03-31'
+
+Use https://www.w3schools.com/sql/trysql.asp?filename=trysql_asc
+Create a SQL statement that shows the following data:
+CustomerId, CustomerName, City, Country, OrderId, OrderDate, ProductId, ProductName, Quantity, Price, TotalAmount, ShipperId, ShipperName
