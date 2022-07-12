@@ -15,6 +15,15 @@ Client Intervention
 
 Practice coding exercises.
 
+Big Data VM (Hortonworks HDP 2.6.5 VM) - Spark, SparkSQL
+MySQL (locally)
+Python (locally)
+Scala (locally or the VM) - sbt
+Spark/SparkSQL (the VM)
+VS Code (for Python and Scala coding).
+
+
+
 
 MySQL:
 RDBMS:
@@ -300,3 +309,234 @@ WHERE OrderDate NOT BETWEEN '2022-01-01' AND '2022-03-31'
 Use https://www.w3schools.com/sql/trysql.asp?filename=trysql_asc
 Create a SQL statement that shows the following data:
 CustomerId, CustomerName, City, Country, OrderId, OrderDate, ProductId, ProductName, Quantity, Price, TotalAmount, ShipperId, ShipperName
+
+
+ROLLBACK & COMMIT
+
+CONSTRAINTS: specified when creating tables.
+NULL
+NOT NULL
+PRIMARY KEY
+FOREIGN KEY
+UNIQUE
+DEFAULT
+CHECK: to check if the column contains specific values.
+INDEX
+
+Multiplicity: Relation between tables. 
+=============
+1:1 - 1 Employee belongs to 1 deparment.
+1:* - 1 Customer, many orders.
+*:1 - 1 Department can have many employees.
+*:* - There can be many orders for many products - You must store this in a separate table. For e.g.; OrderDetails.
+
+Views:
+======
+What is a View?
+It is NOT a table. It is like a table.
+It exists physically as an object in the DB.
+A view is usually created to replace writing complex queries again and again.
+Execute SELECT statements on a View just like you would on a table.
+	SELECT, WHERE, ORDER BY, GROUP BY, HAVING...all can be applied on a View.
+
+CREATE VIEW CustomerOrdersView
+AS
+	SELECT 
+		c.CustomerID, c.CustomerName, c.City, c.Country, 
+		o.OrderID, o.OrderDate, 
+		p.ProductID, p.ProductName, 
+		od.Quantity, p.Price, od.Quantity*p.Price AS TotalAmount, 
+		s.ShipperID, s.ShipperName 
+	FROM Customers c
+	JOIN Orders o ON o.CustomerID = c.CustomerID
+	JOIN Shippers s ON s.ShipperID = o.ShipperID
+	JOIN OrderDetails od ON od.OrderID = o.OrderID
+	JOIN Products p ON p.ProductID = od.ProductID;
+
+SELECT * FROM CustomerOrdersView;
+
+SELECT CustomerId, OrderId, OrderDate 
+FROM CustomerOrdersView
+WHERE city = 'Dallas'
+ORDER BY OrderDate 
+;
+
+
+Interview Qs:
+-------------
+How to create a table with distinct values?
+How to delete duplicate values?
+
+Referential Integrity Constraint (Foreign Key Constraint):
+- Insert constraint: Value cannot be inserted in a CHILD table if the value does not exist in the MASTER (PARENT) table.
+- Delete Constraint: Value cannot be deleted from the MASTER table if the value exists in the CHILD table.
+- On Delete Cascade: If you delete the value in the MASTER table, it will also delete the value(s) in the CHILD table.
+	Not preferred!!!
+	
+CREATE TABLE Orders (
+	OrderId INT NOT NULL AUTO_INCREMENT,
+	CustomerId INT,
+	col2...,
+	col3...,
+	
+	PRIMARY KEY (OrderId),
+	FOREIGN KEY (customerid) REFERENCES Customers(CustomerId) ON DELETE CASCADE
+);
+
+NEVER EVER DELETE RECORDS PHYSICALLY FROM A TABLE!!!
+NEVER USE THE "DELETE" STATEMENT EVER!!!
+
+Instead of deleting, archive it to a different DB.
+Employees
+Departments
+MonthlySalaries
+48 records for my salaries - could be spread across multiple tables.
+Tax related data
+
+
+SELECT * 
+FROM Employees e
+JOIN 
+JOIN
+WHERE e.IsActive = 'Y'
+
+Banking application
+I become a customer and get CustomerId
+I open 2 Checking Accounts, which means I have 2 Account Numbers
+I perform several transactions over 2-3 years.
+
+Then I decide to switch banks and open an account with another bank.
+AUDIT PURPOSES!!! LEGAL!!!
+
+
+GROUP BY and HAVING clauses:
+============================
+GROUP BY is mainly used when you want perform aggregations: SUM, COUNT, MAX, MIN, AVG.
+
+SELECT od.ProductID, SUM(Quantity)
+FROM OrderDetails od
+GROUP BY od.ProductId
+
+SELECT od.ProductID, MAX(Quantity)
+FROM OrderDetails od
+GROUP BY od.ProductId
+
+When using GROUP BY, you can only specify columns in the SELECT statement that are part of the GROUP BY clause and any aggregations.
+You cannot specify any other column in the SELECT statement.
+
+HAVING:
+is very similar to the WHERE clause, meaning it is used to filter records.
+
+SELECT ....
+FROM T1
+WHERE cond1
+GROUP BY col1
+HAVING cond2
+
+SELECT 
+	od.ProductID, 
+    p.ProductName,
+    SUM(Quantity) AS TotalQuantity
+FROM OrderDetails od
+JOIN Products p ON od.ProductId = p.ProductId
+WHERE Quantity > 10
+GROUP BY od.ProductId
+HAVING TotalQuantity > 30
+;
+
+WHERE is executed / evaluated before GROUP BY.
+HAVING is evaluated after GROUP BY.
+
+How much/many of each Product was sold for each City.
+
+WHERE - LIKE clause using Wildcard characters:
+SELECT *
+FROM Customers
+WHERE Firstname LIKE 'a%'
+
+%: represents 0 or more characters.
+_: represents one and only one (single) character.
+
+WHERE Firstname LIKE 'a%': find any values that start with 'a'.
+WHERE Firstname LIKE '%a': find any values that end with 'a'.
+WHERE Firstname LIKE '%or%': find any values that have 'or' in any position.
+WHERE Firstname LIKE '_a%': Find any values that have a "a" in the second position.
+WHERE Firstname LIKE 'a_%': Find any values that start with "a" followed by at least one more character and then there may or may not be more chars. The value has to be at least 2 characters long.
+WHERE Firstname LIKE 'a__%': Find any values that start with "a" and are atleast 3 characters long. 
+WHERE Firstname LIKE 'a%e': Find any values that start with "a" and end with "e".
+ 
+IN Operator.
+SELECT * FROM [Customers]
+WHERE City IN ('Berlin', 'London', 'Madrid')
+
+SELECT * FROM [Customers]
+WHERE City NOT IN ('Berlin', 'London', 'Madrid')
+
+Find Customers that are in the same city as Suppliers.
+Using sub-query:
+
+SELECT * FROM [Customers]
+WHERE City IN (
+	SELECT DISTINCT City FROM Suppliers
+)
+
+Gets converted into something like this:
+SELECT * FROM [Customers]
+WHERE City IN ('Ann Arbor', 'Annecy', 'Bend', 'Berlin', .....)
+
+
+Find Order that had the highest quantity ordered for any product:
+SELECT od.OrderId, p.ProductId, p.ProductName, od.Quantity 
+FROM [OrderDetails] od
+JOIN Products p ON od.ProductId = p.ProductId
+WHERE Quantity = (
+	SELECT MAX(Quantity) FROM OrderDetails
+)
+
+
+Find the customer who placed the Order that had the highest quantity ordered for any product:
+SELECT od.OrderId, p.ProductId, p.ProductName, od.Quantity
+	, c.CustomerId, c.CustomerName, c.City
+FROM [OrderDetails] od
+JOIN Products p ON od.ProductId = p.ProductId
+JOIN Orders o ON od.OrderId = o.OrderId
+JOIN Customers c ON o.CustomerId = c.CustomerId
+WHERE Quantity = (
+	SELECT MAX(Quantity) FROM OrderDetails
+)
+ORDER BY Quantity 
+
+Find all orders that had product quantity that was more than the average of all ordered items:
+SELECT od.OrderId, p.ProductId, p.ProductName, od.Quantity
+	-- , c.CustomerId, c.CustomerName, c.City
+FROM [OrderDetails] od
+JOIN Products p ON od.ProductId = p.ProductId
+JOIN Orders o ON od.OrderId = o.OrderId
+JOIN Customers c ON o.CustomerId = c.CustomerId
+WHERE Quantity > (
+	SELECT AVG(Quantity) FROM OrderDetails
+)
+ORDER BY Quantity 
+
+Same query, using ROUND():
+SELECT od.OrderId, p.ProductId, p.ProductName, od.Quantity
+	-- , c.CustomerId, c.CustomerName, c.City
+FROM [OrderDetails] od
+JOIN Products p ON od.ProductId = p.ProductId
+JOIN Orders o ON od.OrderId = o.OrderId
+JOIN Customers c ON o.CustomerId = c.CustomerId
+WHERE Quantity > (
+	SELECT ROUND(AVG(Quantity),0) FROM OrderDetails
+)
+ORDER BY Quantity 
+
+
+Created a table in a DB, what are the different ways in which this table can be updated/inserted?
+1. Directly go to the DB tool (Workbench) and execute INSERT statement.
+2. Through an application code.
+
+If I do not have constraints, and I insert records from an application that does not perform any validations on the data, I will get "bad data".
+
+If I DO HAVE constraints, and I insert records from an applicatipon that does not perform any validations on the data, the DB itself will check the validity of the data and the rows will be created ONLY if the constraints are met / passed.
+
+Applications must have additional validations to ensure proper data is sent to the DB.
