@@ -540,3 +540,136 @@ If I do not have constraints, and I insert records from an application that does
 If I DO HAVE constraints, and I insert records from an applicatipon that does not perform any validations on the data, the DB itself will check the validity of the data and the rows will be created ONLY if the constraints are met / passed.
 
 Applications must have additional validations to ensure proper data is sent to the DB.
+
+13-July-2022:
+JOINS:
+(INNER) JOIN: Returns records that have matching values in both tables.
+LEFT (OUTER) JOIN: Returns all records from the left table, and only the matched records from the right table.
+RIGHT (OUTER) JOIN: Returns all records from the right table, and only matched records from the left table.
+FULL (OUTER) JOIN: Returns all records when there is a match either in the left or right table.
+
+Purpose of "WHERE"?: Filtering, meaning conditions. Returns rows that fulfil a "condition" or a "criteria".
+Purpose of "JOIN" is to join tables and not filter data using validation criteria.
+
+LEFT OUTER JOIN Example:
+SELECT c.CustomerId, c.CustomerName, o.CustomerId AS 'OrderCustomerId', o.OrderId, o.OrderDate
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerId = o.CustomerId
+
+RIGHT OUTER JOIN Example:
+SELECT od.OrderId, od.ProductId AS 'OD_ProductID', p.ProductId, p.ProductName
+FROM OrderDetails od 
+RIGHT JOIN Products p ON od.ProductId = p.ProductId;
+
+FULL OUTER JOIN Example:
+SELECT od.OrderId, od.ProductId AS 'OD_ProductID', p.ProductId, p.ProductName
+FROM OrderDetails od 
+FULL OUTER JOIN Products p ON od.ProductId = p.ProductId;
+
+You can add WHERE conditions to any of the JOINs.
+
+Set Operators:
+UNION: Combine rows from both queries.
+INTERSECT: Return only those rows that are common to both queries.
+EXCEPT: Returns rows from the Left query that are not included in the right query.
+
+UNION:
+SELECT c.CustomerId, c.CustomerName, c.City
+FROM Customers c
+UNION
+SELECT s.SupplierId, s.SupplierName, s.City
+FROM Suppliers s
+
+Return rows from both queries.
+Displays the "headers" from the first query.
+No. of columns returned in both queries have to be same.
+
+BUT....In Enterprise DB products (like MS SQL Server, Oracle etc.),
+Even the data types of the columns should match.
+You can have a UNION of 2 or more queries.
+Queries could be on VIEWs.
+
+INTERSECT:
+SELECT c.CustomerId
+FROM Customers c
+INTERSECT
+SELECT s.SupplierId
+FROM Suppliers s
+
+EXCEPT:
+SELECT c.CustomerId
+FROM Customers c
+EXCEPT
+SELECT s.SupplierId
+FROM Suppliers s
+
+UNION ALL vs UNION:
+UNION displays unique rows from the queries.
+UNION ALL displays duplicates from the queries (but not supported by all databases).
+
+Salaries when calculated every month, the system creates separate tables for each month+year.
+Jan2022Salary
+Feb2022Salary
+Mar2022Salary
+
+Normalization:
+It is the process of reducing redundancy of data in the tables.
+It also helps in improving the data integrity.
+The proper configuration or setting of relations (PK-FK) plays a major role in achieving Normalization.
+
+Some issues that can come up when designing DBs:
+Insertion anomaly: Occurs when we cannot insert data without the presence of another attribute.
+Update anomaly: It results from data redundancy and partial update of data.
+Deletion anomaly: Occurs when certain attributes arelost because of the deletion of other atrributes.
+
+Normal Forms (NFs).
+1NF: A column in a table should not have multiple values.
+For e.g.;
+Phonenumber: If more than one phone number is stored in the column, you are breaking the rule for 1NF.
+Data types of column values should be same.
+By splitting the values into multiple rows to achieve 1NF, we end up with Redundant Data!!!
+
+2NF:
+1. The table must already be in 1NF, all non-key columns must depend on the PK of the table.
+2. Partial dependencies must be removed and placed in a separate table.
+
+3NF:
+1. Table must already be in 2NF.
+2. Non-PK columns should not depend on other non-PK columns.
+3. There is no transitive functional dependency.
+
+What is "transitive functional dependency"?
+When a non-key column when changed, might cause changes to other non-key columns.
+
+Exercise:
+Create a database with tables, PK-FK relations, constraints wherever applicable for a MOVIE database.
+Tasks in Workbench:
+	- CREATE DATABASE script.
+	- CREATE TABLE scripts.
+	- INSERT data in all the tables.
+	- SELECT statements to query movie information.
+	- At least one aggregation (GROUP BY).
+
+Setting a custom start value for AUTO_INCREMENT:
+------------------------------------------------
+use ecommerce;
+
+create table test1 (
+	id int not null auto_increment,
+    name varchar(10),
+    primary key(id)
+);
+
+alter table test1
+auto_increment = 1001;
+
+insert into test1 (name) values ('abcd');
+insert into test1 (name) values ('xyz');
+
+select * from test1;
+
+DRY: Don't Repeat Yourself.
+	do not duplicate your work. Reuse.
+	reduce redundancy.
+KISS: Keept it Simple, Silly!
+
