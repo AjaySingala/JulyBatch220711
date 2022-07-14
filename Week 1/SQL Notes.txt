@@ -22,9 +22,6 @@ Scala (locally or the VM) - sbt
 Spark/SparkSQL (the VM)
 VS Code (for Python and Scala coding).
 
-
-
-
 MySQL:
 RDBMS:
 RDBMS vs DBMS:
@@ -366,6 +363,7 @@ Interview Qs:
 -------------
 How to create a table with distinct values?
 How to delete duplicate values?
+How to get the 2nd highest score of a student.
 
 Referential Integrity Constraint (Foreign Key Constraint):
 - Insert constraint: Value cannot be inserted in a CHILD table if the value does not exist in the MASTER (PARENT) table.
@@ -673,3 +671,188 @@ DRY: Don't Repeat Yourself.
 	reduce redundancy.
 KISS: Keept it Simple, Silly!
 
+14-Jul-2022:
+============
+ACID:
+	- Atomicity
+	- Consistency
+	- Isolation
+	- Durability
+
+Atomicity:
+	- Commits finish an operation successfully or the DB rolls back to its prior state.
+Consistency:
+	- Data integrity is maintained.
+	- There are no violations of integrity constraints.
+		- For e.g.; The balance never becomes negative.
+Isolation:
+	- Any read / write will not be impacted by other reads / writes of separate transactions on the same DB.
+	- Two or more operations can happen at the same time, but they should not interfere with each other's processes.
+Durability:
+	- Once a commit is done successfully, the data will survive permanently.
+	- Changes made to the DB that are successfully committed will survive permanently.
+	- Data will not be lost in case of server outages, crash etc.
+
+ecommerce site, 
+Person a searched for iPhone charger
+2 in stock.
+Add to cart 2 numbers.
+
+PersonB searches for iPhone charger:
+2 in stock
+Add to cart 2 numbers.
+immediately pays for it.
+stock is 0
+
+Person A and tries to place an order for the 2 items  in the cart.
+Result? out of stock!!!
+
+Indexes:
+The moment you create a PK, the DB creates anm INDEX for that column as well, automatically.
+
+SELECT *
+FROM Customers
+WHERE CustomerId = 101
+
+SELECT *
+FROM Customers
+WHERE City = 'Dallas'
+
+We can create indexes on non-PK columns as well.
+CREATE INDEX idx_Customers_City ON Customers (City);
+
+SELECT *
+FROM Customers
+WHERE City = 'Dallas'
+AND State = 'TX'
+
+CREATE INDEX idx_Customers_CityState ON Customers (City, State);
+
+SELECT *
+FROM Employees
+WHERE City = 'Dallas'
+AND State = 'TX'
+AND EmployeeID = 543
+
+CREATE INDEX idx_Employees_CityState ON Employees (City, State, EmployeeId);
+
+Which query / queries are most often exeucted in your application / environment?
+
+The more indexes you create on a table, there will be an impact on INSERT / UPDATE / DELETE operations.
+1 table : 12 indexes.
+1 insert -> has to attempt to update 12 indexes.
+1 update -> has to attempt to update 12 indexes.
+1 delete -> has to attempt to update 12 indexes.
+
+CTE: Common Table Expression
+- creating a temporary "query" or an expression to be used in another query.
+- It's like a temporary table / placeholder.
+Syntax:
+WITH cte_name AS (
+	query
+) SELECT * FROM cte_name
+
+
+ROW_NUMBER() is RANK operation.
+use ecommerce;
+
+SELECT
+    ROW_NUMBER() OVER (ORDER BY Quantity DESC) AS RowNumber,
+    OrderId,
+    ProductId,
+    Quantity,
+    Price
+FROM OrderDetails;
+
+WITH test
+AS (
+SELECT
+    ROW_NUMBER() OVER (ORDER BY Quantity DESC) AS RowNumber,
+    OrderId,
+    ProductId,
+    Quantity,
+    Price
+FROM OrderDetails
+-- ORDER BY RowNumber
+) SELECT * FROM test
+WHERE Rownumber = 2
+;
+
+
+---
+use ecommerce;
+WITH test
+AS (
+SELECT
+    ROW_NUMBER() OVER (ORDER BY ProductName) AS RowNumber,
+    ProductName,
+    ProductId,
+    Price
+FROM Products
+-- ORDER BY RowNumber
+) SELECT * FROM test
+WHERE Rownumber >= 2
+;
+
+How to delete duplicate records:
+================================
+Using CTE and ROW_NUMBER():
+WITH cte_DeleteDuplicateCustomers
+AS (
+	SELECT
+		ROW_NUMBER() OVER (PARTITION BY c.name, c.address ORDER BY c.id) AS RowNumber,
+		c.id,
+		c.name,
+		c.address
+	FROM Customers c
+) 
+DELETE FROM Customers USING Customers
+JOIN cte_DeleteDuplicateCustomers cte ON cte.id = Customers.id
+WHERE RowNumber > 1;
+
+SELECT * FROM customers;
+
+-- Alternate way without using CTE, but using ROW_NUMBER().
+DELETE FROM contacts 
+WHERE 
+	id IN (
+	SELECT id 
+	FROM (	SELECT id,
+			ROW_NUMBER() OVER (
+				PARTITION BY email
+				ORDER BY email) AS row_num
+		FROM contacts
+	) t
+    WHERE row_num > 1
+);
+
+You can use RANK() instead of ROW_NUMBER().
+
+How to get Employee that had the highest sales:
+===============================================
+SELECT em.EmployeeId, em.Firstname, em.Lastname
+FROM Employees em
+WHERE em.EmployeeId IN (
+   SELECT o.EmployeeId 
+   FROM OrderDetails od
+   JOIN Orders o ON od.OrderId = o.OrderId
+   JOIN Employees e on o.EmployeeId = e.employeeId
+   JOIN Products p ON od.ProductId = p.ProductId
+   GROUP BY o.EmployeeId
+   ORDER BY SUM(od.quantity * p.Price) DESC
+   LIMIT 1
+)
+
+Get duplicate rows based on a single column:
+============================================
+SELECT name, COUNT(name)
+FROM customers
+GROUP BY name
+HAVING COUNT(name) > 1
+
+Get duplicate rows based on a multiple columns:
+===============================================
+SELECT name, address, COUNT(*)
+FROM customers
+GROUP BY name, address
+HAVING COUNT(*) > 1
