@@ -4,22 +4,21 @@ Restaurants Database:
 - Cuisines served.
 - Menu.
 - Score (0 - 100).
-- Grade ( A, B, C, D).
+- Grade (A, B, C, D).
+
+CREATE DATA AS WELL.
 
 Queries:
 1. Write a query to display the fields id, name, city and cuisine for all the restaurants.
-2. Write a query to display all the restaurants which is in the city of Orlando.
+2. Write a query to display all the restaurants which are in the city of Orlando.
 3. Write a query to display the top 5 restaurants in the state of New York.
 4. Write a query to display restaurants who achieved a score more than 90.
 5. Write a query to display restaurants who achieved a score more than 80 but less than 100.
 6. Write a query to display restaurants that do not prepare any cuisine of 'American' and their grade score is more than 70.
 7. Write a query to display restaurants that do not prepare any cuisine of 'American' and their grade score is more than 70 and are in the the city of Dallas.
-8. Write a query to display restaurants which do not prepare any cuisine of 'American ' and achieved a grade point 'A', are not from Seattle. The document must be displayed according to the cuisine in descending order.
+8. Write a query to display restaurants which do not prepare any cuisine of 'American' and achieved a grade point 'A', are not from Seattle. The data must be displayed according to the cuisine in descending order.
 9. Write a query to display the fields id, name, city and cuisine for all the restaurants that contain the letters "reg" somewhere in its name.
-10. Write a query to display restraunts from Los Angelels that serve Italian and Chinese cuisines.
-11. Write a query to display restraunts that scored less than 10.
-12. Write a query to display restraunts that scored more than 50 between 01-Jan-2022 and 30-Jun-2022. Display the data in descending order of the score.
+10. Write a query to display restaurants from Los Angeles that serve Italian and Chinese cuisines.
+11. Write a query to display restaurants that scored less than 10.
+12. Write a query to display restaurants that scored more than 50 between 01-Jan-2022 and 30-Jun-2022. Display the data in descending order of the score.
 13. Write a query to display items served by restaurants that cost more than $20. Display the restaurant's name, address etc. along with the item and it's price in ascending order of price and restaurant name.
-
-
-
