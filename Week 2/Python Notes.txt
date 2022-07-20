@@ -1,0 +1,422 @@
+Python:
+=======
+REPL: Read-Eval-Print-Loop
+Interpreted language.
+Object Oriented.
+Open source.
+Case-sensitive (name, Name, NAME, NaMe)
+Very strict about identation.
+
+Keywords and Identifiers:
+Keywords: pre-defined or reserved words in a language that have a special meaning.
+def and or not if elif else for while break as pass return global False True try with class continue except finally import in is None yield raise.
+
+Identifiers: a name to identify a variable, function, class, module etc.
+A combination of alphasbets (A-Z, a-z) and numbers (0-9) and underscore (_).
+Should start with character (alphabet) or underscore. Cannot start with numbers or special characters.
+Cannot use special characters like $ % # @ ! etc.
+
+Valid identifiers:
+var1
+_var1
+var_1
+
+Invalid indentifiers:
+1var
+!var1
+1_var
+var#1
+
+Simple and Compound Statements:
+Simple statements: a single logical line / statement
+x = 5			# Simple statement.
+x = 5 + 5		# Simple expression statement.
+
+Other examples: break continue return import
+
+Compound Statements:
+Comprised of a group of statements.
+if cond:
+	statement
+	statement
+
+if cond:
+	statement
+	statement
+elif:
+	statement
+	statement
+else:
+	statement
+	statement
+
+Loops are also compound statements: for while
+Exception handling: try 
+try:
+	statement
+	:
+except:
+	# handle the exception.
+else:
+	# if exception does not occur.
+finally:
+	# executes whether or not an exception occurs.
+	
+How do you determine the type of a variable?
+print(type(var_name))
+i = 20
+print(type(i))
+name = "Ajay"
+print(type(name))
+
+Data Types:
+===========
+str
+int
+float
+bool
+sequence types: list, tuple, range
+mapping type: dict
+set types: set, frozenset
+
+x = ["apple", "banana", "strawberry"]				# list.
+x = ("apple", "banana", "strawberry")				# tuple.
+x = {"id": 101, "fname": "John", "lname": "Smith"}	# dict.
+
+Tuple: immutable (values can't be modified), ordered sequence of items. Allows duplicates. Can have mixed values
+x = ("apple", "banana", "strawberry", "apple")
+print(x[0])		# apple.
+print(x[1])		# banana.
+
+List: Mutable (values can be changed), orddered sequence of items. Allows duplicates. Can have mixed values.
+x = ["apple", "banana", "strawberry"]
+print(x[0])		# apple.
+print(x[1])		# banana.
+
+Dictionary: key-value pairs. Duplicate keys are not allowed. Values are mutable.
+x = {"id": 101, "fname": "John", "lname": "Smith", "fname": "Ajay"}
+prints: {"id": 101, "fname": "ajay", "lname": "Smith"}
+Values can be modified by referencing their respective keys.
+Keys cannot be modified.
+Cannot reference keys by their index numbers. There are no index numbers in a dictionary.
+x.items()	=> returns all the key-value pairs as a collection.
+x.keys()	=> returns a list of keys.
+x.values()	=> returns a list of the values.
+
+print("John" in x.values())
+print("firstname" in x.keys())
+for k, v in x.items():
+	print(f"Key: {k}. Value: {v}")
+
+
+Slicing:
+x[n:m] => return value from index position "n" up to index position "m", but not including "m".
+x = ['apple', 'banana', 'strawberry', 1, 10, True]
+x[1,3] => ['banana', 'strawberry']
+x[::-1] => [True, 10, 1, "Strawberry", "banana", "apple"]
+x2 = x[:-4:-1]	=> [True, 10, 1]
+
+The "in" operator: Checks if a value exists in a container.
+x = ['apple', 'banana', 'strawberry', 1, 10, True]
+print(10 in x)	=> True.
+print("banana" in x)	=> True.
+print("peaches in x)	=> False.
+
+The "+" operator: concat 2 lists, tuples or strings and gives a new list, tuple, string.
+x = (1,2,3)
+y = (4,5,6)
+z = x + y
+
+The "*" operator: produces a new tuple, list, string that "repeats" the original contents.
+(1,2,3) * 3
+
+List only operations:
+.append(): Adds a value to the end of the list.
+.insert(): Insert a value at a given position in a list.
+.index(): returns the index of a given value. If there are duplicates, it returns the index of the first occurance.
+.count(): returns the count of the given value in the list.
+.remove(): removes the given value from the list. Removes the first occurance of the given value.
+.reverse(): reverses the given list in-place (within the list itself). Does not return a new list.
+.sort(): in-place sorting of the list.
+
+Tuples vs Lists:
+Lists a bit slower than Tuples, but more powerful.
+Lists can be modified, Tuples cannot be modified.
+Lists have a lot of additional methods/operations not available in Tuples.
+
+Comments:
+=========
+# single line comment
+""" this is an example
+of a multi-line comment
+in Python."""
+''' this is an example
+of a multi-line comment
+in Python.'''
+
+DocString:
+----------
+def add(a, b):
+	""" This function adds 2 numbers
+	and returns the result
+	of the addition"""
+	code
+	code
+	code
+	
+print(add.__doc__)
+
+Loops:
+======
+while loop:
+-----------
+syntax:
+while(condition):
+	code
+	code
+break: break out of a loop based on a condition.
+continue: ignore any statements after "continue" and go back to start of the loop.
+
+for loop:
+---------
+for variable in list_of_values:
+	code
+	code
+
+for i in range(5):
+	print(i)
+	
+Loop examples:
+===============
+# To take input from the user.
+
+# n = int(input("Enter n: "))
+n = 10
+while n <15 :
+    print(n)
+    n = n + 1
+print('STOP!!!')
+
+# An infinite loop.
+n = 10
+while True :
+    print(n)
+print('STOP!!!')
+
+# break.
+while True:
+    line = input('Enter "STOP" to stop the loop\n')
+    if line == 'STOP':
+        break
+    print(line)
+print('STOP!')
+
+# continue #1.
+while True:
+    line = input('> ')
+    if line[0] == '#':
+        continue
+    if line == 'done':
+        break
+    print(line)
+print('Done!')
+
+# Continue #2
+for i in "Make Me Analyst":
+    if i == "M":
+        continue
+    print(i)
+print("STOP")
+
+# for loop.
+emp = ['Seba', 'Kattula', 'Mohan']
+for e in emp:
+    print('Hello:', e)
+print('Done!')
+
+arr=[1,2,3,4,5]
+for i in arr:
+    print(i)
+
+# range().
+# Program to iterate through a list using indexing
+arr = [11,12,13,14,15]
+# iterate over the list using index
+for i in range(len(arr)):
+    print(i, arr[i])
+
+# Program to iterate through a list using indexing
+arr = ["A","B","C","D"]
+# iterate over the list using index
+for i in range(len(arr)):
+    print(arr[i])
+
+count = 0
+for i in [1,2,3,4,5]: 
+    count = count + 1
+print('Count: ', count)
+
+# Maximum and minimum loops
+largest = None
+print('Before 1:', largest)
+for i in [3, 4, 12, 90, 44, 150]: 
+    if largest is None or i > largest :
+        largest = i 
+    print('Loop 1:', i, largest)
+print('Largest 1:', largest)
+smallest = None
+print('Before 2:', smallest)
+for i in [3, 4, 12, 90, 44, 150]: 
+    if smallest is None or i < smallest :
+        smallest = i 
+    print('Loop 2:', i, smallest)
+print('Smallest 2:', smallest)
+
+# a for loop in reverse.
+for i in reversed(range(5)):
+    print(i)
+arr = [1,2,3,4,5]
+for i in reversed(arr):
+    print(i)
+# range(start, stop, step)
+for i in range(5,-1,-1):
+    print(i)
+for i in range(5,-1,-2):
+    print(i)
+
+# Using slice syntax perform the backward iteration
+N = 6
+k = range(N+1)[::-1]
+print("The reversed numbers are : ",end='')
+for i in k:
+    print(i, end=' ')
+===
+
+Functions:
+==========
+Positional Parameters / arguments: The sequence in which the parameters have been defined.
+
+Named parameters: When calling a function, you pass argumnets by referencing the argument/parameter names.
+def foo(qty, item, price):
+    print(f"Item: {item}, Quantity: {qty} Price: {price}")
+	
+foo(qty=10, item="Pencils", price=1.59)
+foo(item="Pencils", qty=10, price=1.59)
+foo(price=1.59, item="Pencils", qty=10)
+
+Default parameters/arguments: must be provided towards the end of the function definition. So, all non-default arguments must be specified before any default arguments.
+Correct:
+def foobar(item, price = 1.59, qty = 10):
+def foobar(item, price, qty = 10):
+
+Wrong:
+def foobar(price = 1.59, qty = 10, item):
+def foobar(price = 1.59, item, qty = 10):
+def foobar(price = 1.59, item ,qty):
+
+Lambda Functions:
+Anonymous function, meaning, they do not have a defined name like a regular function.
+Usually, lambdas are used for very simple, small function execution that is not required to be repeated / reused.
+
+def foo(x):
+	return x
+	
+lambda x: x
+
+lx = lambda x : x * 2
+def foo(x):
+	return x * 20
+
+Another way of calling a lambda:	
+(lambda x: x * 2)(10)
+
+Lambda with multiple params:
+lambda x, y : x * y
+
+Named params and default params:
+(lambda x,y,z: x + y + z)(y=10, z=20, x=40)
+lx3 = (lambda x,y,z: x + y + z)
+lx3(1,2,3)
+lx3(z=10, x= 5, y = 4)
+
+lx4 = (lambda x,y,z=25: x + y + z)
+lx4(10,20)
+
+Variable (non-keyword) arguments / Keyword arguments:
+-----------------------------------------------------
+# non-keyword arguments:
+def foo(*args):
+    print(args)
+    for arg in args:
+        print(arg)
+
+foo("John")
+foo("John", "Mary")
+foo("John", "Mary", "Joe")
+foo("John", "Mary", 200)
+
+def foobar(arg1, *args):
+	print(arg1)
+	for arg in args:
+		print(arg)
+
+foobar("This is a test", "John", "Mary")
+
+# kewyword arguments.
+def new_foo(**kwargs):
+    print(kwargs)
+    for k, v in kwargs.items():
+        print(f"Key: {k}. Value: {v}")
+        print("The key %s has the value %s" % (k,v))
+
+new_foo(first="John", last="Smith")
+new_foo(first="John", last="Smith", age=25)
+
+Exception Handling:
+===================
+try:
+	statement
+	statement
+except:
+	# This part gets called if there is an exception.
+	# handle the exception
+else:
+	# This part gets called if there is no exception.
+finally:
+	# This gets called either way.
+	
+Exception handling for File I/O:
+# File I/O.
+def readFile(filename):
+    try:
+        with open(filename) as f:
+            data = f.readlines()
+            print(data)
+
+            
+    except FileNotFoundError as fnf_err:
+        print(f"File {filename} not found. ERROR: {fnf_err}")
+    except:
+        print(f"Some error occured when trying to read file {filename}")
+
+
+print("Reading file that exists...")
+readFile("test.txt")
+print("Reading file that does not exists...")
+readFile("invalid_file.txt")
+
+Exercises:
+1. Create a function that receives 2 numbers. Returns the product of the two numbers only if the product is greater than 1000, else return the sum of the two numbers.
+	foo(10,500)	=> 5000
+	foo(10,3)	=> 13
+2. Return the first "n" characters of a given string (to be entered by the user).
+	
+	firstNStrings("My name is John", 4) => "My n"
+	firstNStrings("HelloThereHowAreYou", 6) => "HelloT"
+	
+3. Given a list of numbers, check if the 1st and last numbers are same.
+	x = [10,8,7,20,6,28,10]
+	check(x)	True
+	x = [10,8,7,20,6,28,20]
+	check(x)	False
+	
