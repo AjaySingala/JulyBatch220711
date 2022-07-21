@@ -420,3 +420,589 @@ Exercises:
 	x = [10,8,7,20,6,28,20]
 	check(x)	False
 	
+21-Jul-2022:
+============
+Python Sets:
+------------
+Unordered collections having unique items.
+Duplicates are not allowed.
+The elements in a set must be of an immutable type.
+The set itself is mutable.
+	- we can add or remove items/elements in a set.
+Defined using curly braces {}
+
+s = {"foo", "foobar", "bar", "quid", "queen"}
+s = {"foo", "foobar", "bar", "quid", "queen", "foo", "bar"}
+
+len(s)		=> Count of items in a set.
+"foo" in s 	=> returns True if "foo" exists in set "s", else returns False.
+
+Union: combine 2 sets using the vertical bar (|):
+>> x1 = {"foo", "bar", "quid" }
+>>> x2 = {"foo", "queen", "case" }
+>>> x1
+{'quid', 'bar', 'foo'}
+>>> x2
+{'queen', 'case', 'foo'}
+>>> x3 = x1 | x2
+>>> x3
+{'quid', 'queen', 'case', 'bar', 'foo'}
+
+Union using the union() function:
+>>> x4 = x1.union(x2)
+>>> x4
+{'quid', 'queen', 'case', 'bar', 'foo'}
+
+>>> x1 | {'a', 'b', 'c', 'd'}
+{'a', 'quid', 'b', 'c', 'bar', 'd', 'foo'}
+
+x1 | x2 | x3 | x4
+
+x1.union(x2,x3,x4)
+
+Intersection: using the & operator.
+>>> x1
+{'quid', 'bar', 'foo'}
+>>> x2
+{'queen', 'case', 'foo'}
+>>> x3 = x1 & x2
+>>> x3
+{'foo'}
+
+x1.intersection(x2)
+
+x1 & x2 & x3 & x4
+
+x1.intersection(x2,x3,x4)
+
+Difference: using the - operator.
+x1 - x2	=> Returns elements that are in x1, but not in x2.
+x1.difference(x2)
+
+Modifying a set:
+----------------
+Update:
+>>> x1 = {"foo", "bar", "queen"}
+>>> x2 = {"quid", "case", "foo"}
+>>> x1.update(x2)
+>>> x1
+{'quid', 'queen', 'case', 'bar', 'foo'}
+
+Union vs Update:
+Union does not modify the set on the left.
+Update directly modifies the set on the left.
+
+Remove: Removes the given value from the set directly, and does not return a new set.
+>>> x1 = {"foo", "bar", "queen", "baz"}
+>>> x3 = x1.remove("queen")	=> the expression "x3 =" is not required.
+>>> x1
+{'baz', 'bar', 'foo'}
+>>> x3			=> will return nothing!
+
+If the given value is not found in the set, it returns a "KeyError".
+
+Remove uisng discard():
+>>> x1 = {"foo", "bar", "queen", "baz"}
+>>> x1.discard("queen")
+>>> x1
+{'baz', 'bar', 'foo'}
+
+Trying to remove a value that does not exist with discard, does not return an error (unlike .remove()). It just quitely comes back.
+>>> x1.discard("queen")
+
+pop(): randomly remove an element from a set and return that element value. You cannot specify parameters.
+>>> x1 = {"foo", "bar", "queen", "baz", "foobar"}
+>>> x3 = x1.pop()
+>>> x1
+{'foobar', 'queen', 'bar', 'foo'}
+>>> x3
+'baz'
+>>> type(x3)
+<class 'str'>
+
+>>> s1 = {1,2,3,4,5,6}
+>>> s2 = s1.pop()
+>>> s1
+{2, 3, 4, 5, 6}
+>>> s2
+1
+>>> type(s2)
+<class 'int'>
+
+clear(): clears all values from the set, and does not return anything.
+>>> x1
+{'foobar', 'queen', 'bar', 'foo'}
+>>> xc = x1.clear()		=> "xc = " is not required.
+>>> x1
+set()
+>>> xc
+
+Object Oriented Programming in Python:
+======================================
+Concepts OOP:
+-Polymorphism		=> Many Forms.
+-Abstraction		=> the outside world can only see what is made available "publicly".
+-Encapsulation		=> the data as well as the operations are enclosed within the class/object itself.
+-Inheritance
+
+Everything in OOP revolves around Classes and Objects.
+Class is a blueprint.
+Use classes to create objects.
+Object is the runtime instance of a class.
+An object is something that can physically exist!!!
+	It is created (or it exists only when a program runs)
+Classes can have:
+	- Methods (behaviors / operations).
+	- Attributes (fields / properties).
+
+Employee (Class):
+	- Attributes:
+		- EmployeeId
+		- Firstname
+		- Lastname
+		- DOB
+		- DOJ
+	- Methods:
+		- CalculateSalary()
+		- HoursWorked()
+		- GetAge()
+
+Inheritance:
+	getting the methods/operations from the parent class.
+
+Python does not allow Method Overloading.
+
+# Define an empty class.
+class Person:
+	pass
+# Create an object of the class.	
+p1 = Person()
+
+__init__() is the constructor of Python classes.
+	- It gets called every time you create an object of a class.
+
+class Person:
+	def __init__(self, name, age):
+		self.name = name
+		self.age = age
+		
+p1 = Person("John Smith", 42)
+p2 = Person("Mary Jane", 35)
+>>> p1.name
+'John Smith'
+>>> p1.age
+45
+>>> p2.name
+'Mary Jane'
+>>> p2.age
+37
+>>>
+
+Here, "name" and "age" are called "instance attributes".
+Python also has "class attributes". Have the same value for all instances of the class.
+
+
+class Person:
+	City = "Boston"
+	
+	def __init__(self, name, age):
+		self.name = name
+		self.age = age
+
+p1 = Person("John Smith", 42)
+p2 = Person("Mary Jane", 35)
+
+Instance Methods: Receive "self" as a parameter.
+class Person:
+    # constructor
+    def __init__(self, fname, lname):
+        self.firstname = fname
+        self.lastname = lname
+
+    def printFullname(self):
+        print(self.lastname + ", " + self.firstname)
+
+    #def printFullname(self, message):
+    #    print(f"{message} : {self.firstname}")
+
+p1 = Person("John", "Smith")
+print(p1.firstname, p1.lastname)
+p1.printFullname()
+#p1.printFullname("some message")
+
+p2 = Person("Mary", "Jane")
+p2.printFullname()
+#p2.printFullname("Hello there, ")
+
+Class inheritance in Python:
+----------------------------
+Syntax:
+class SubClass(ParentClass):
+
+You can inherit from another class.
+Add more attributes to the subclass.
+Change the behavior of existing methods (of the base class).
+Add more methods to the subclass.
+
+An instance of a subclass, is also an instance type of the base class.
+But, an instance of a parent (base) class is NOT a type of the subclass.
+class Person:
+	pass
+	
+class Student(Person):
+	pass
+	
+p1 = Person()
+s1 = Student()
+
+Here, p1 is of type Person, but not of type Student.
+But s1, is of type Student as well as Person (because Person is the base class of Student).
+
+Abstract classes:
+-----------------
+Those that cannot be instantiated.
+But, they can be inherited from.
+
+In Python, abstract classes are not supported directly. To use Abstract Classes in Python, you have to import a module called "abc" - Abstract Base Class module.
+
+from abc import ABC, abstractmethod
+class MyAbstractClass(ABC):
+	pass
+		
+
+class Employee(ABC):
+	def __init__(self, fname, lname):
+		self.Firstname = fname
+		self.Lastname = lname
+		
+	@abstractmethod
+	def get_salary(self):
+		pass
+		
+class FullTimeEmployee(Employee):
+	def __init__(self, fname, lname, salary):
+		self.Firstname = fname
+		self.Lastname = lname
+		self.Salary = salary
+		
+	def get_salary(self):
+		return self.Salary
+		
+class HourlyEmployee(Employee):
+	def __init__(self, fname, lname, hoursWorked, rate):
+		self.Firstname = fname
+		self.Lastname = lname
+		self.HoursWorked = hoursWorked
+		self.Rate = rate
+		
+	def get_salary(self):
+		return (self.HoursWorked * self.Rate)
+	
+
+
+fte1 = FullTimeEmployee("John", "Smith", 1500)
+he1 = HourlyEmployee("Mary", "Jane", 30, 45)
+
+print(f"{fte1.Firstname} {fte1.Lastname} earned {fte1.get_salary()}")
+print(f"{he1.Firstname} {he1.Lastname} earned {he1.get_salary()}")
+
+File i/o (or file handling):
+============================
+open(path_to_file, mode)
+Modes:
+"r" for reading
+"w" for writing. Overwrites the contents of the file if it exists, else creates a new file.
+"a" for appending, does not overwrite the file. If the file does not exist, it will be created.
+"r+" for both, reading & writing
+"x" creates a new file. If the file exists, the operation fails.
+"t" Default mode to open file in "text" mode.
+"b" Open file in binary mode.
+"+" open a file for reading and writing.
+
+
+open("server.log", "r")
+open("server.log", "w")
+open("server.log", "r+")
+open("server.log", "a")
+open("server.log", "rb")
+
+Sample code:
+# a file named "test.txt", will be opened with the reading mode.
+file = open('test.txt', 'r')
+#This will print every line one by one in the file
+for each in file:
+    print (each)
+
+# Python code to create a file
+file = open('test.txt','w')
+file.write("This is the write command\n")
+file.write("It allows us to write in a particular file\n")
+file.close()
+
+# Python code to illustrate read() mode
+file = open("test.txt", "r") 
+print (file.read())
+
+# Python code to illustrate read() mode character wise
+file = open("test.txt", "r")
+print (file.read(10))
+print((file.read(20)))
+print(file.read(25))
+
+f=open("test.txt", "r")
+if f.mode == 'r':
+    contents = f.read()
+    print(contents)
+print(f.mode)
+f.close()
+
+f=open("test.txt", "r")
+lines = f.readlines()
+print(type(lines))
+for line in lines:
+    print(line)
+f.close()
+
+f = open("test2.txt","w+")
+for i in range(10):
+    f.write("This is line %d\r\n" % (i+1))
+f.close() 
+
+# Python code to illustrate append() mode
+file = open('test.txt','a')
+file.write("This will add this line\n")
+for i in range(10):
+    file.write("This is line %d\r\n" % (i+1))
+file.close()
+
+# # Python code to illustrate with() alongwith write()
+with open("file.txt", "w") as f: 
+    f.write("Hello World!!!\n")
+    for i in range(3):
+        f.write("Line #:" + str(i) + "\n")
+
+# Python code to illustrate split() function
+with open("test.txt", "r") as file:
+    data = file.readlines()
+    for line in data:
+        word = line.split()
+        print (word)
+
+with open("file.csv", "r") as file:
+    data = file.readlines()
+    for line in data:
+        word = line.split(",")
+        print (word)
+
+Logging (Tracing):
+========
+Used by developers and support staff for troubleshooting.
+
+import the "logging" module:
+import logging
+
+5 Levels of logging:
+-Debug
+-Information
+-Warning		==> Default level.
+-Error
+-Critical
+
+Sample Code:
+import logging
+
+# Default logging level is WARNING.
+logging.debug('This is a debug message')
+logging.info('This is an info message')
+logging.warning('This is a warning message')
+logging.error('This is an error message')
+logging.critical('This is a critical message')
+
+print("\nChange default logging level...")
+# Change logging level to DEBUG.
+# Comment code above first.
+logging.basicConfig(level=logging.DEBUG)
+logging.debug('This will get logged')
+logging.info('This is an info message')
+logging.warning('This is a warning message')
+logging.error('This is an error message')
+logging.critical('This is a critical message')
+
+# Logging to a file.
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.warning('This will get logged to a file')
+logging.error('This will get logged to a file')
+logging.critical('This will get logged to a file')
+
+# Formatting the output.
+logging.basicConfig(format='%(process)d-%(levelname)s-%(message)s')
+logging.warning('This is a Warning')
+
+# Add date-time.
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
+logging.info('Admin logged in')
+
+# Another example to format date-time with %(asctime) and datefmt.
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+logging.warning('Admin logged out')
+
+# Log variable dats.
+name = 'John'
+logging.error('%s raised an error', name)
+logging.error(f'{name} raised an error')
+
+# Capture stack trace.
+a = 5
+b = 0
+try:
+    c = a / b
+except Exception as e:
+    logging.error("Exception occurred", exc_info=True)
+
+# Use logging.exception if using try-except.
+a = 5
+b = 0
+try:
+    c = a / b
+except Exception as e:
+    logging.exception("Exception occurred")
+
+# Custom logger object.
+logger = logging.getLogger('example_logger')
+logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s')
+logger.warning('This is a warning')
+## Uncomment first set of logging commands and check output.
+
+Unit Testing:
+=============
+Types of testing:
+- unit testing			=> by individual developers testing their own work.
+- integration testing	=> Development team.
+- system testing		=> Testers / Testing team.
+- performance testing	=> Testers / Very specific / Automated.
+
+def foo(x,y,z):
+	code
+	code
+	if(x > 10):
+		do something
+	
+	code
+	
+	if(y == 56):
+		do something
+	
+	code
+	
+foo(1,2,3)
+foo(12,2,3)
+foo(5,56,65)
+foo(15,56,65)
+
+By testing all the code path, I am acheiving 100% code coverage. IDEAL scenario.
+Even if you achive ~70-80% code coverage, you're doing good.
+
+unit testing using the "unitest" module.
+import unittest
+
+using pytest package
+install it:
+pip install pytest
+
+project folder:
+	.py
+	.py
+	.py
+	Test (folder)
+		test_xyz.py
+		test_abc.py
+		
+To generater code coverage, run:
+coverage run -m pytest
+
+And then, run this:
+coverage html
+
+
+Useful things, one-line code:
+=============================
+Swap values:
+a=1
+b=2
+
+You will have to use a temp variable:
+c = a
+a = b
+b = c
+
+Instead:
+a,b = b,a
+
+Reverse a list:
+list1 = [1,2,3,4]
+list1[::-1]
+
+Mutliple assignments:
+a, b, c = 10, "John", 22.5
+
+Convert a string to an integer:
+s = '22'
+int(s)
+s = '3.14'
+float(s)
+
+Find the square root of a number:
+num = 16
+print(num**.5)
+
+Find the cube root of a number:
+num = 16
+print(num**(1/3))
+
+
+If-Else statements in one line:
+x = 19
+if x < 10 then assign 40 to y else assign 27 to y
+1)
+if x < 10:
+	y = 40
+else:
+	y = 27
+	
+
+2) 
+y = 27
+if x < 10:
+	y = 40
+	
+y = 40 if x < 10 else 27
+
+How to check if a word is a palindrome:
+s = 'racecar'
+s == s[::-1]
+
+List comprehension:
+===================
+Ability to construct a list from another list.
+- for loops
+- conditional statements
+- append
+
+List comprehension replaces all of this and makes it faster and smaller code.
+
+How to split a word and make an array using List Comprehension:
+msg = "Hello there. How are you doing?
+[i for i in msg]
+
+Variable Scoping:
+=================
+4 levels of scope for a variable:
+- Local: if you refer a variable in a function, Python first searches for it in the innermost scope of function.
+- Enclosing: if the varialbe is not defined in the local scope, it will search for it in the enclosing function (there is function within a function).
+- Global: If not in Local or Enclosing scope, it will look for it in the global scope (not defined in any function/class).
+- Built-in: If not found in either of these 3, then it will try to look for it in the built-in scope.
+
+LEGB rule.
+
+global: when a variable is defined outside any function.
+nonlocal: when a variable is defined in an enclosing/nested function.
