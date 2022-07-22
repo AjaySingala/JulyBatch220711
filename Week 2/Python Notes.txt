@@ -1006,3 +1006,187 @@ LEGB rule.
 
 global: when a variable is defined outside any function.
 nonlocal: when a variable is defined in an enclosing/nested function.
+
+22-July-2022:
+=============
+List comprehension:
+    ["d" if i == "4"
+        else "e" if i == "2"
+        else "s" if i == "3"
+        else i
+        for i in msg
+    ]
+	
+new_list = []
+for i in msg:
+	if i == "4":
+		new_list.append("d")
+	elif i == "2"
+		new_list.append("e")
+	elif i == "3"
+		new_list.append("s")
+	else
+		new_list.append(i)
+
+Syntax of List comprehension:
+[action1 if <cond1> else action2 if <cond2> else action3 if <cond3> else actionN for iterator in list]
+
+Read and Parse a CSV file:
+==========================
+Import the csv package:
+import csv
+
+Some useful scenarios:
+1. Remove duplicates from a list:
+[1,2,3,3,5,6,4,3,2,1,8,9,7,6]
+
+[1,2,3,5,6,4,8,9,7]
+
+
+list_ex = [1,2,45,23,3,5,5,4,6,7,9,5,3,1,2,0]
+list_ex2 = ["hdshf",2,"hdshf",23,3,5,5,4,6,"Helllo",9,5,3,1,2,"Helllo"]
+
+result = []
+[result.append(x) for x in list_ex if x not in result]
+print(result)
+
+Using for loop:
+list_ex = [1,2,45,23,3,5,5,4,6,7,9,5,3,1,2,0]
+result = []
+for x in list_ex:
+	if x not in result:
+		result.append(x)
+
+2) Given a string, "My name is Ajay Singala.", print the following:
+M occurs 1 times
+y occurs 1 times
+  occurs 4 times
+ n occurs 1 times
+ :
+ :
+ m occurs 1 times
+ i occurs 2 times
+ a occurs 3 times
+ 
+def countChars(x) :
+    unique = []
+    for i in x:
+        if i not in unique:
+            unique.append(i)
+            print(f"{i} occurs {x.count(i)} times")
+
+string_example = 'Hi my name is Mark'
+countChars(string_example)
+
+
+Visualization:
+==============
+NumPy:
+------
+Short for Numerical Python.
+A Py library for working with arrays.
+NumPy arrays are much faster than Python lists.
+The array object in numpy is called "ndarray". Supports quite a few functions.
+Why are numpy arrays are faster than lists?
+	Numpy arrays are stored in a continuous memory block, inlike lists, which are spread across memory locations.
+Numpy is written partially in Python, a lot of features written either in C or C++.
+
+Install:
+pip install numpy
+
+Use:
+import numpy
+
+[1,2,3,4,5,6,7,8,9]							1D
+[ [1,2,3], [4,5,6], [7,8,9] ]				2D
+[ [[1,2,3], [4,5,6], [7,8,9]], [ [10,11,12], [13,14,15], [16,17,18]] ]	3D
+
+Numpy copy(): when you make a copy of an array, and make changes to the original array, changes are not reflected in the copy.
+Numpy view(): when you make a view of an array, and make changes to the original array, changes are reflected in the view as well.
+
+Matplotlib:
+-----------
+Is a plotting library.
+It is used along with NumPy to create charts / graphs.
+
+import numpy as np
+from matplotlib import pyplot as plt
+
+plt.plot(x, y, "ob")
+
+When plotting chargts, you can provide "formatting":
+- Solid line
+-- Dashed line
+-. Dash-dot line
+: Dotted line
+. point marker
+, pixel marker
+o circle marker
+v down-triangle marker
+^ up-triable marker
+< left-triable marker
+> right-triangle marker
+1 tri-down marker
+2 tri-up marker
+3 tri-left marker
+4 tri-right marker
+s square marker
+p pentagon marker
+* star marker
+h hexagon marker
+H hexagon2 marker
++ plus marker
+x X marker
+D diamond marker
+d thin diamond marker
+| vertical line marker
+_ horizontal line marker
+
+Color abbreviations:
+b blue
+g green
+r red
+c cyan
+m magenta
+y yellow
+w white
+k black
+
+
+Pandas:
+-------
+Python library used to analyze data.
+Pandas works with datasets.
+Functions for analyzing, cleaning (cleansing), exploring, manipulating data.
+
+install:
+pip install pandas
+
+Pandas Series is like a column in a table.
+It is a 1D array holding some data of any type.
+
+To display more rows, pd.options.display.max_rows 
+
+pd.options.display.max_rows=500
+df = pd.read_csv("file.csv")
+print(df)
+
+Pandas Correlation:
+-------------------
+Determine correlation b/w series.
+
+df.corr()
+
+It ignores non-numeric values.
+The result (correlation) is displayed in numbers.
+These numbers range between -1 and 1.
+1 means there is a 1-1 to relationship (a perfect correlation). Each time a value went up in the first column (series), the other one also went up.
+0.9 is also a good relationship. If one goes up, the other most probably will go up.
+-0.9 would also be a good relationship. If value of one increases, the other will probably on down.
+0.2 means NOT a good relationship. If one goes up does not mean that other will also go up.
+
+What is a good relationship?
+As a safe bet, 0.6 (or -0.6) is considered to be a good correlation.
+
+Perfect correlation:
+A column (series) will always have perfect correlation with itself and henct will have the value of 1.00000.
