@@ -1,0 +1,140 @@
+Scala:
+======
+Scala is an OO language.
+	Classes, inheritance, polymorphism etc.
+Scala is functional:
+	Functional Programming
+		using functions as a building block.
+		assign funcs to variables and also pass funcs as arguments to other funcs.
+		treats functions as 1st class citizens.
+		Pure Functions:
+			- func has no "side effects":
+				- func does not interact with data outside the func.
+				- func does not change / modify any data that is outside the func.
+			- It always returns the same value for the same inputs.
+
+Immutability
+Recursion:
+	func calls itself again and again.
+	
+Higher-order function:
+	if either of the following criteria is satisfied:
+		func takes another func as a param (or takes one or more func as a argument)
+		or returns a func
+		or both
+	
+	First class variables (to which functions are assigned):
+		can be passed to funcs as arguments.
+		They can also be returned from funcs.
+		We can also store them in data structures.
+
+Scala is a statically typed language:
+	var name = "John"
+	var age = 50
+	It has a defined set of types.
+	Determines the type during compile time.
+	Scala supports "type inference".
+	Other statically typed languages: C, Pascal, Rust. You have to specify the type of the variable.
+
+Modes:
+1. Interactive mode: scala shell and run one command at a time.
+2. Scipt mode: You create .scala files and write all your code and then compile and run the code.
+
+scalac First.scala
+scala First
+
+"scalac" is the compiler. It compiles the .scala source code and converts it into Java Byte code in a .class file.
+"scala" is the executer / runner. It will execute the .class file.
+
+It runs on the JVM - Java Virtual Machine.
+
+sbt ===> Scala Build Tool.
+
+How to use sbt:
+1. Create a folder.   				mkdir FirstSbt
+2. Navigate to the new folder.   	cd FirstSbt
+3. Create a new project.			sbt new scala/scala-seed.g8
+4. sbt will ask for a project name. Give a name (do not provide spaces in the project name).
+5. sbt will create a folder for the project name.
+6. Navigate to the project folder.	cd <project name>
+7. run sbt
+This opens the sbt command prompt and shows sbt:projectname>
+
+sbt commands:
+compile
+run
+
+In VS Code:
+- open the project folder
+- VSC will auto run sbt (a sit finds the build.sbt in the project folder)
+- And gives the sbt prompt in the Terminal Window of VSC.
+
+For better experience in VSC, install the following extensions:
+- Metals by ScalaMeta
+- Scala (sbt) by Lightbend
+- Scala Syntax (official) by scala-lang
+
+Scala Characteristics:
+======================
+Scala supports REPL (Read-Eval-Print-Loop) on the scala shell, but Scala is NOT an interpreted language. It is a compiled language.
+Scala is case-sensitive.
+All data types in Scala are defined as classes with methods that operate on the data.
+
+Basic data types in Scala:
+Boolean
+Char
+Int
+Long
+Float
+Double
+String
+
+Advanced data types:
+Unit:		no value (similar to void).
+Null:		null / empty reference.
+Nothing:	no value
+Any:		Suptertype of all other types (all other types are of type Any).
+AnyRef:		Supertype of all reference types.
+
+A Scala program is a collection of objects that communicate with each other via each other's methods.
+Scala has:
+- Class: a template / blueprint that describes the behavior / states of the class.
+- Object: a runtime instance of a class. They have states and behaviors.
+- Methods: it is a behavior.
+- Fields: Each object has unique set of instance variables (properties) called "fields". They hold / identify the state of the object.
+- Traits: like abstract classes or interfaces. Encapsulate method and field definitions. They only have the signature of the methods. Implementaiton of menthods is not mandatory.
+	Abstract classes:
+	- classes that have abstract methods.
+	- you can inherit but you cannot instantiate (cannot create objects).
+
+Scala Identifiers:
+- must start with an alphabet (a-z, A-Z) or an underscore.
+- can contain alphanumeric characters (a-z, A-Z, 0-9) and underscore.
+- illegal characters: $, !, -, #
+
+Legal indentifiers:
+age, salary, __age__, _salary_1, __1_salary
+Illegal indentifiers:
+$salary, 123age, -city
+
+Scala keywords:
+abstract	case	catch	class	def 	do	else	extends	false	final	finally	for	if	import	lazy	match	new	Null
+object	override	package	private	protected	returned	sealed	this	throw	trait	Try	true	val 	var 	while
+with	yield
+
+Variable declarations:
+var name = "John"	// mutable.
+val name = "John"	// immutable.
+
+var name: String = "John"
+val age:Int = 25
+
+val (name, age) = ("John", 45)
+val salary = 123.45f		// Float.
+val salary = 123.45			// Double.
+
+Variable Scope:
+---------------
+Fields: variables that belong to an object. They are not defined in any function/method. Are accessible from inside eveyr method in the object. Can be mutable or immutable.
+Method parameters: variables that are used to pass values to a function/method. Are always immutable, so must be defined with val.
+Local variables: are declared inside a method. They are only accessible within the method where it is defined. Can be mutable or immutable.

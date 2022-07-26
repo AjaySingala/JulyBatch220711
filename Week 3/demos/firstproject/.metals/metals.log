@@ -1,0 +1,17 @@
+2022.07.26 15:57:28 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Temp\JulyBatch220711\Week 3\demos\firstproject\.metals\lsp.trace.json or C:\Users\AjayJayantilalSingal\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.07.26 15:57:32 INFO  logging to file C:\Temp\JulyBatch220711\Week 3\demos\firstproject\.metals\metals.log
+2022.07.26 15:57:32 INFO  Started: Metals version 0.11.7 in workspace 'C:\Temp\JulyBatch220711\Week 3\demos\firstproject' for client Visual Studio Code 1.69.2.
+2022.07.26 15:57:35 INFO  time: initialize in 3.28s
+2022.07.26 15:57:37 WARN  Flyway upgrade recommended: H2 2.1.214 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.1.210.
+2022.07.26 15:57:37 WARN  Build server is not auto-connectable.
+2022.07.26 15:59:30 INFO  shutting down Metals
+2022.07.26 16:15:58 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Temp\JulyBatch220711\Week 3\demos\firstproject\.metals\lsp.trace.json or C:\Users\AjayJayantilalSingal\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.07.26 16:16:01 INFO  logging to file C:\Temp\JulyBatch220711\Week 3\demos\firstproject\.metals\metals.log
+2022.07.26 16:16:01 INFO  Started: Metals version 0.11.7 in workspace 'C:\Temp\JulyBatch220711\Week 3\demos\firstproject' for client Visual Studio Code 1.69.2.
+2022.07.26 16:16:03 INFO  time: initialize in 2.41s
+2022.07.26 16:16:04 WARN  Flyway upgrade recommended: H2 2.1.214 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.1.210.
+2022.07.26 16:16:05 WARN  Build server is not auto-connectable.
+2022.07.26 16:16:05 INFO  skipping build import with status 'Requested'
+2022.07.26 16:16:30 INFO  shutting down Metals
+2022.07.26 16:16:51 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Temp\JulyBatch220711\Week 3\demos\firstproject\.metals\lsp.trace.json or C:\Users\AjayJayantilalSingal\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.07.26 16:16:53 INFO  logging to file C:\Temp\JulyBatch220711\Week 3\demos\firstproject\.metals\metals.log
