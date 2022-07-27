@@ -35,7 +35,7 @@ MongoDB: 4.4.x
 	
 Free Download Manager (Chrome Extension)
 
-Hortonworks HDP Sandbox:i
+Hortonworks HDP Sandbox:
 -------------------------
 www.virtualbox.org/
 www.cloudera.com 

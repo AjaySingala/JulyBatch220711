@@ -15,3 +15,53 @@
 2022.07.26 16:16:30 INFO  shutting down Metals
 2022.07.26 16:16:51 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Temp\JulyBatch220711\Week 3\demos\firstproject\.metals\lsp.trace.json or C:\Users\AjayJayantilalSingal\AppData\Local\scalameta\metals\cache\lsp.trace.json
 2022.07.26 16:16:53 INFO  logging to file C:\Temp\JulyBatch220711\Week 3\demos\firstproject\.metals\metals.log
+2022.07.26 16:16:53 INFO  Started: Metals version 0.11.7 in workspace 'C:\Temp\JulyBatch220711\Week 3\demos\firstproject' for client Visual Studio Code 1.69.2.
+2022.07.26 16:16:54 INFO  time: initialize in 1.26s
+2022.07.26 16:16:54 WARN  Flyway upgrade recommended: H2 2.1.214 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.1.210.
+2022.07.26 16:16:54 WARN  Build server is not auto-connectable.
+2022.07.26 16:16:55 INFO  skipping build import with status 'Requested'
+2022.07.26 16:17:37 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 16:17:41 INFO  no build target found for C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala. Using presentation compiler with project's scala-library version: 3.1.3
+2022.07.26 16:17:43 INFO  time: code lens generation in 5.81s
+2022.07.26 16:17:50 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\Second.scala
+Jul 26, 2022 4:17:55 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 11
+2022.07.26 16:18:01 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\Second.scala
+Jul 26, 2022 4:18:20 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 42
+2022.07.26 16:19:21 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\build.sbt
+2022.07.26 16:19:45 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\Second.scala
+2022.07.26 16:19:48 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\Hello.scala
+2022.07.26 16:19:59 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\abc.scala
+2022.07.26 16:19:59 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\abc.scala
+2022.07.26 16:20:04 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\Second.scala
+2022.07.26 16:20:05 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\abc.scala
+2022.07.26 16:20:10 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 16:20:16 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\abc.scala
+2022.07.26 16:20:18 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\abc.scala
+2022.07.26 16:20:23 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\abc.scala
+2022.07.26 16:20:28 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\Hello.scala
+2022.07.26 16:43:12 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 16:43:21 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 16:43:40 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:08:12 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:08:33 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:08:44 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:09:41 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:09:50 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:10:01 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:10:11 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:10:43 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:12:16 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:12:30 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:12:42 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:13:18 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:13:39 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:13:42 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:13:52 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:14:03 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:14:14 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:14:29 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:14:42 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:15:33 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala
+2022.07.26 17:15:44 WARN  no build target for: C:\Temp\JulyBatch220711\Week 3\demos\firstproject\src\main\scala\example\First.scala

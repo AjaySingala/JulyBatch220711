@@ -138,3 +138,265 @@ Variable Scope:
 Fields: variables that belong to an object. They are not defined in any function/method. Are accessible from inside eveyr method in the object. Can be mutable or immutable.
 Method parameters: variables that are used to pass values to a function/method. Are always immutable, so must be defined with val.
 Local variables: are declared inside a method. They are only accessible within the method where it is defined. Can be mutable or immutable.
+
+27-Jul-2022:
+============
+Ex:
+- Create a class Person with some very basic attributes: firstname, lastname, city. Methods: to print full name.
+- Create a class Employee that inherits from Person and adds attributes: DateOfJoining, Salary. Methods: to print the name, DOJ and salary of the the employee.
+- create a list of employees with some values
+	1) print the details of each employee.
+	2) print those employees that are from "Boston"
+NO DATABASE!!!
+
+Expressions, Statements and Conditionals:
+-----------------------------------------
+Expression: is a single unit of code that returns a value.
+val x = 10 + 2
+var x = 10 + 2
+"hello"
+"hel" + "l" + "o"
+
+Expression Blocks: when you have multiple statements either on a single line separated by semi-colon or within a block of {}.
+val x = 5; val y = 20
+val amount = { val x = 5 * 20; x + 10 }
+
+Statements: is an expression that does not return a value.
+val x = 1
+
+Conditionals: if-else block
+if Syntax:
+if(<condition>) <expression>
+	- <condition> returns a true or false.
+	- if the condition return true, <expression> is executed.
+
+if(10 % 2 == 0) println("This is an even number")
+if(10 % 2 == 0) {
+	println("This is an even number")
+}
+
+x = 10
+val y = (if(x == 10) "Value is 10")
+
+if-else Syntax:
+if(<cond>) {
+	<expression>
+}
+else {
+	<expression>
+}
+
+val max = if(x > y) x else y
+
+if-else-if Syntax:
+if(cond1) {
+	<expression>
+} else if(cond2) {
+	<expression>
+} else if(cond3) {
+	<expression>
+} else {
+	<expression>
+}
+
+val status = "Pending"
+ if(status == "Active") {
+     |    println("Status is 'Active'")
+     | } else if(status == "New") {
+     |    println("Status is 'New'")
+     | } else if(status == "Pending") {
+     |    println("Status is 'Pending'")
+     | } else {
+     |    println("Status is unknown!")
+     | }
+	 
+switch-case-default statement: In Scala, we have "Match Expressions":
+Syntax:
+<expression> match {
+	case <pattern match1> => <expression>
+	case <pattern match2 > => <expression>
+}
+
+val status = "Pending"
+status match {
+	case "Active" => { 
+		println("Status of the Document is Active")
+	}
+	case "New" => {
+		println("Status of the Document is New")
+	}
+	case "Pending" => {
+		println("Status of the Document is Pending")
+	}
+	case _ => println("Status is invalid!!!")		// Like Using a wildcard.
+}
+
+If there is no match found, Scala will give an error.
+
+You can also check for multiple values together:
+val dow = "THU"
+val whatDayIsIt = dow match {
+	case "MON" => "weekday"
+	case "TUE" => "weekday"
+	case "WED" => "weekday"
+	case "THU" => "weekday"
+	case "FRI" => "weekday"
+	case "SAT" => "weekend"
+	case "SUN" => "weekend"
+	case _ => "What?"
+}
+
+Alternatively:
+val whatDayIsIt = dow match {
+	case "MON" | "TUE" | "WED"| "THU" | "FRI" => "weekday"
+	case "SAT" | "SUN" => "weekend"
+	case _ => "What?"
+}
+
+Using Pattern Guards:
+val response:String = null
+response match {
+	case r if r != null => println(s"Response received was $r")
+	case r => println("No response received!")
+}
+
+Another example:
+scala> val age = 10
+val age: Int = 10
+
+scala> age match {
+     |    case a if a >= 18 => println("Can vote")
+     |    case a => println("cannot vote")
+     | }
+	 
+for loop:
+=========
+syntax:
+for (<identifier> <- <iterator>) <expression>
+for(x <- 1 to 7) print(s"$x ")
+
+Iterator Guards:
+for(i <- 1 to 10 if i % 2 == 0) print(s"$i ")
+
+Nested iterators:
+scala> for { x <- 1 to 2
+     |    y <- 1 to 3 }
+     |    { print(s"($x,$y)") }
+	 
+until:
+for(i <- 1 to 10) print(s"$i ")			// from 1 to 10, including 1 and 10.
+for(i <- 1 until 10) print(s"$i ")		// from 1 to 10, but not including 10.
+
+step:
+for(i <- 1 to 10 by 2) print(s"$i ")
+for(i <- 1 until 10 by 2) print(s"$i ")
+
+while loop:
+===========
+syntax:
+while(condition) <expression>
+
+var x = 0
+while(x <= 10) {
+	print(s"$x ")
+	x = x + 1
+}
+
+var x = 0
+while(x <= 10) {
+	print(s"$x ")
+	x = x + 1
+	if(x > 5)
+		break
+}
+
+Scala break statement:
+To break out of loops, you have to create "breakable" loops.
+
+import scala.util.control._
+var x = 0
+val loop = new Breaks
+
+loop.breakable {
+	while(x <= 10) {
+		print(s"$x ")
+		x = x + 1
+		if(x > 5)
+			loop.break()
+	}
+}
+
+import scala.util.control._
+var nums = List(1,2,3,4,5,6,7,8,9,10)
+val loop = new Breaks
+
+loop.breakable{
+	for(x <- nums) {
+		print(s"$x ")
+		if(x >= 5)
+			loop.break()
+	}
+}
+
+Alternatively:
+import scala.util.control.Breaks._
+
+var nums = List(1,2,3,4,5,6,7,8,9,10)
+
+breakable {
+	for(x <- nums) {
+		print(s"$x ")
+		if(x >= 5)
+			break()
+	}
+}
+
+Breaking out of Nested loops:
+
+Ex:
+Reverse a string
+val message = "This is scala"
+alacs si sihT
+
+
+def rev(msg: String): String = 
+	( for(i <- msg.length - 1 to 0 by -1) yield msg(i) ).mkString
+
+rev("Ajay")
+Round 1: i = 3  msg(i) === "y"   yield msg(i)     puts into a sequence (list) ('y')
+Round 2: i = 2  msg(i) === "a"   yield msg(i)     puts into a sequence (list) ('y', 'a')
+Round 3: i = 1  msg(i) === "j"   yield msg(i)     puts into a sequence (list) ('y','a', 'j')
+Round 4: i = 0  msg(i) === "A"   yield msg(i)     puts into a sequence (list) ('y','a', 'j', 'A')
+
+('y','a','j','A').mkString  converts it into  "yajA"
+
+Traits:
+=======
+trait Person {
+	def fullname()
+}
+
+Traits in Scala are like interfaces in other languages C++, Java, C#.
+Traits have either partial implementation or no implementation.
+Traits can have abstract and non-abstract methods.
+A class that extends a trait must implement the methods defined in the trait.
+If there are implemented methods in the trait, they can be overridden by the subclass by providing the "override" modifier.
+Classes that do not implement any of the defined methods (with no default implementation in the trait), become Abstract classes and must be defined with the abstract keyword.
+And Abstract class cannot be instantiated, i.e.; you cannot create an instance (object) of that class.
+
+Any modern OO langauge does not support multiple inheritance, a class cannot inherit from more than one class at a time.
+Which means, to achieve multiple inheritance, you have to use Traits (known as interfaces in other languages).
+
+Access Modifiers:
+-----------------
+private: private member is only visible inside the class or object that contains the member definition.
+public : (default) public member can be accessed from anywhere.
+protected: protected member are only accessible from subclasses of the class in which the member has been defined or the class itself in which it has been defined.
+
+final class: cannot be inherited. Can be instantiated.
+sealed class: Can be instantiated. Can be inherited only by other classes in the same .scala file.
+
+this: represents the current object on which you have performed the operation (called the method).
+
+
+
