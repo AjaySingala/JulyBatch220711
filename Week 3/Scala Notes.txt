@@ -398,5 +398,397 @@ sealed class: Can be instantiated. Can be inherited only by other classes in the
 
 this: represents the current object on which you have performed the operation (called the method).
 
+28-Jul-2022:
+============
+Tuple:
+An ordered container of two or more values, all of which may be of different types.
+You create a tuple by providing values in parentheses and the values separated by commas.
+Tuples are immutable.
+Index elements start with 1 and not 0.
+Access elements using the ._n format:
+For e.g.;
+val names = ("John", "Mary", "Joe", "William", "Bob")
+
+names._1	will print "John"
+names._2	will print "Mary" and so on.
+
+val nums = (1,2,3,4)
+nums.productIterator.foreach { i => println(s"Value is $i") }
+
+In Scala, when returning value from a function, you can omit the "return" keyword and directly specify the value to be returned.
+For e.g.;
+def add(x: Int, y: Int) {
+	x + y		// "return" not required.
+}
+
+println(add(10,20))		will print 30.
+
+Nested Functions:
+-----------------
+object NestedFn {
+    def main(args: Array[String]): Unit = {
+        println(max(10,5,20))		// prints 20.
+        println(max(5,20,10))		// prints 20.
+        println(max(110,25,15))		// prints 110.
+
+        // println(max2(100,200))  // Error!
+    }
+
+    def max(x: Int, y: Int, z: Int): Int = {
+        def max2(a: Int, b: Int) : Int = if (a > b) a else b
+
+        max2(x, max2(y,z))
+    }
+}
+
+Named Parameters:
+-----------------
+def create(fname: String, lname:String, age: Int) {
+	println(s"Name: $lname, $fname is $age years old")
+}
+
+create("John", "Smith", 24)
+create(fname="John", lname="Smith", age=24)
+create(lname="Smith", age=24, fname="John")
+create(age=24, lname="Smith", fname="John")
+
+Default value parameters:
+-------------------------
+def create(fname: String, lname:String, age: Int, prefix: String = "Mr."): Unit = {
+	println(s"$prefix Name: $lname, $fname is $age years old")
+}
+
+create("John", "Smith", 24, "Miss")
+create("John", "Smith", 24)
+create(lname="John", fname="Smith", age=24)
+
+Anonymous Functions (Lambda):
+-----------------------------
+val doubler = (x:Int) => x * 2
+doubler(10)
+
+val multiplier = (x: Int, y: Int) => x * y
+multiplier(10,2)
+
+Exception Handling in Scala:
+============================
+Use the try-catch block.
+Syntax:
+try {
+	// code goes here
+}
+catch {
+	case ex1: IOException => {
+		// handle the exception here.
+	}
+	case ex2: ArithmeticException => {
+		// handle the exception here.
+	}
+	case ex3: Throwable => {
+		println("Something went wrong!")
+	}
+}
+finally {
+	// cleanup. This code will always execute.
+}
+
+Set:
+====
+A Set is an immutable, unordered collection of unique elements.
+A set cannot have duplicate values.
+
+val nums = Set(10,20,30,30,20,40,50)
+
+Since sets are unordered, elements cannot be accessed using indexes.
+val games = Set("Baseball", "Football", "Hockey")
+games.head		returns the first element.
+games.tail		returns all elements except the first one.
+games.last		returns the last element.
+games.isEmpty	returns true the set is empty, else false.
+
+Merge sets:
+val games1 = Set("Baseball", "Football", "Hockey")
+val games2 = Set("Soccer", "Golf", "Baseball")
+val mergedGames = games1 ++ games2
+
+Merging removes duplicates.
+games1.contains("Golf")
+games2.contains("Soccer")
+
+Add / remove elements in a set:
+var games1 = Set("Baseball", "Football", "Hockey")
+games1 += "Racing"
+games1 -= "Football"
+
+Iterate a Set:
+for(game <- mergedGames) {
+	println(game)
+}
+
+OR
+
+mergedGames.foreach( (elem:String) => println(elem) )
+
+Set operations:
+UNION and INTERSECT
+
+val games1 = Set("Baseball", "Football", "Hockey")
+val games2 = Set("Soccer", "Golf", "Baseball")
+
+val gamesIntersect = games1.intersect(games2)
+val gamesUnion = games1.union(games2)
+
+SortedSet:
+import scala.collection.immutable.SortedSet
+val numbers = SortedSet(5,8,1,9,2,7,4)
+
+Seq:
+====
+Seq a trait that represents indexes sequence of elements that are immutable.
+You can access elements using their indexes. It maintains the insertion order of elements. Indexes are zero-based.
+It is ordered.
+
+val nums: Seq[Int] = Seq(52,85,1,3,2,7)
+nums(0)		52
+nums(5)		7
+
+Iterate over a Seq:
+nums.foreach( (elem) => println(elem) )
+nums.isEmpty
+nums.contains(5)
+nums.contains(85)
+nums.endsWith( Seq(2,7) )
+nums.endsWith( Seq(7) )
+nums.lastIndexOf(2)
+nums.indexOf(2)
+nums.reverse
+
+List:
+=====
+Immutable, ordered collection of items.
+Elements can be accessed using their index position. Indexes are zero-based.
+
+val nums = List(32,95,62,76,10)
+val colors = List("red", "green", "blue", "yellow")
+
+colors(0)		red
+colors(2)		blue
+colors.size		no. of elements
+colors.head
+colors.tail
+colors.last
+colors.isEmpty
+
+for( clr <- colors) println(clr)
+colors.foreach( (clr) => println(clr) )
+
+scala> colors.map( (clr: String) => clr.size )
+val res55: List[Int] = List(3, 5, 4, 6)
+
+val nums = List(3,5,2,1)
+val total = nums.reduce( (a, b) => a + b )
+Steps:
+a = 3, b = 5	returns 8
+a = 8, b = 2	returns 10
+a = 10, b= 1	returns 11
+
+map(): takes function that converts a single element into another value.
+reduce(): takes a function that combines two elements into a single element.
+
+Prepending values to a list:
+val names = List("John", "Mary")
+scala> val new_names = "Joe" :: names
+val new_names: List[String] = List(Joe, John, Mary)
+
+This will not work:
+val new_names = names :: "Joe"
+
+Appending values to a list: Use ListBuffer
+import scala.collection.mutable.ListBuffer
+
+var names = ListBuffer[String]()
+names += "John"
+names += "Mary"
+"William" +=: names		// prepend.
+names.append("Bob")		// append.
+names.remove(0)			// returns the element value.
+names.remove(1,3)		// removes elements from 1 to 3, inclusive of both. Does not return anything.
 
 
+List operations
+val list3 = list1 ++ list2		// returns merge lists.
+val sorted_list = list1.sorted	// returns a sorted list.
+val rev_list = list2.reverse	// returns a reversed list.
+val result = list2.drop(n)		// deletes the first "n" elements and returns those values. Original list is not changed.
+
+Map:
+====
+Immutable Key-value store, a.k.a. dictionary, hashmap.
+Items are stored in K-V pairs and the Keys have to unique.
+You retrieve values using their respective keys.
+
+val colorMap = Map("red" -> 0xFF0000, "green" -> 0xFF00, "blue" -> 0xFF)
+colorMap("red")
+colorMap("blue")
+val cyan = colorMap("green") | colorMap("blue")
+
+colorMap.contains("white")		// false.
+colorMap.contains("blue")		// true.
+
+// Append a new KV pair.
+val color2 = Map("yellow" -> 0xFF0001)
+val newColors = colorMap + color2		// Error!
+
+// use this instead.
+val newColors = colorMap + ("yellow" -> 0x0FF001)		// retrurns a new combined map.
+
+// Remov element:
+scala> val removedElem = newColors - ("red")	// returns a new map with all elems except "red".
+val removedElem: scala.collection.immutable.Map[String,Int] = Map(green -> 65280, blue -> 255, yellow -> 1044481)
+
+scala> removedElem
+val res7: scala.collection.immutable.Map[String,Int] = Map(green -> 65280, blue -> 255, yellow -> 1044481)
+
+List arithmetic:
+List(1,2) == List(1,2)
+List(3,4,5,3,2,7).distinct				// return distinct values from the list.
+List('x','y','z','a','b') drop 2		// drop the first 2 elements and return new list.
+List(10,23,8,9,65) filter(_ > 18)		// returns those elems that are > 18.
+List(10,23,8,9,65).filter(_ > 18)		// returns those elems that are > 18.
+List(10,23,8,9,65).filter((i) => i > 18)
+
+//Flatten lists: Converts a list of lists into single list of elements.
+scala> val x = List( List(1,2), List(3,4) )
+val x: List[List[Int]] = List(List(1, 2), List(3, 4))
+
+scala> x
+val res17: List[List[Int]] = List(List(1, 2), List(3, 4))
+
+scala> x.flatten
+val res18: List[Int] = List(1, 2, 3, 4)
+
+scala> List("John", "Mary").flatten
+val res19: List[Char] = List(J, o, h, n, M, a, r, y)
+
+List(1,2,3,4,5).reverse					// returns the reversed list.
+
+Slicing: slice(n,m)   return elements from "n" upto "m", but not including "m".
+scala> val x  = List(1,2,3,4,5)
+val x: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> x.slice(1,3)
+val res22: List[Int] = List(2, 3)
+
+List(10,6,1,9,4,8,5).sorted				// returns a sorted list.
+
+scala> val fruits = List("strawberries", "apples", "bananas", "kiwi", "peach")
+val fruits: List[String] = List(strwaberries, apples, bananas, kiwi, peach)
+
+scala> fruits.sortBy(_.size)
+val res28: List[String] = List(kiwi, peach, apples, bananas, strawberries)
+
+splitAt: split the list into 2 lists at the position specified.
+scala> List(2,3,5,7) splitAt 2
+val res29: (List[Int], List[Int]) = (List(2, 3),List(5, 7))
+
+scala> List(2,3,5,7,9,4,10) splitAt 2
+val res30: (List[Int], List[Int]) = (List(2, 3),List(5, 7, 9, 4, 10))
+
+scala> List(2,3,5,7,9,4,10) splitAt 3
+val res31: (List[Int], List[Int]) = (List(2, 3, 5),List(7, 9, 4, 10))
+
+scala> List(2,3,5,7,9,4,10) take 4			// return the first 4 elements.
+val res32: List[Int] = List(2, 3, 5, 7)
+
+scala> List("apples,bananas,strawberries,kiwi") flatMap(_.split(","))
+val res34: List[String] = List(apples, bananas, strawberries, kiwi)
+
+val data = List(
+	"apples,bananas,strawberries,kiwi",
+	"john,mary,william,joe"
+)
+
+.flatMap(<func>)		// flattens the list and performs the function "func" on each element.
+.map(<func>)			// does not flatten the list, performs the given "func" function each element.
+
+For e.g.;
+scala> val names = Seq("JOHN", "MARY")
+val names: Seq[String] = List(JOHN, MARY)
+
+scala> names.flatMap(_.toLowerCase)
+val res39: Seq[Char] = List(j, o, h, n, m, a, r, y)
+
+scala> names.flatten
+val res40: Seq[Char] = List(J, O, H, N, M, A, R, Y)
+
+scala> names
+val res41: Seq[String] = List(JOHN, MARY)
+
+scala> names.map(_.toLowerCase)
+val res42: Seq[String] = List(john, mary)
+
+File I/O:
+=========
+
+Case Classes:
+=============
+case class Book(title: String)
+
+val book1 = Book("Scala Programming")
+book1.title
+
+case class Message(sender: String, recipient: String, body: String)
+val msg1 = Message("ajay.singala@revature.com", "john.smith@abc.com", "Invitation for weekend party")
+println(msg1.sender)
+println(msg1.recipient)
+println(msg1.body)
+
+// Compare case class objects.
+val msg2 = Message("ajay.singala@revature.com", "john.smith@abc.com", "Invitation for weekend party")
+val areSame = msg1 == msg2
+
+// Copy.
+val msg1 = Message("ajay.singala@revature.com", "john.smith@abc.com", "Invitation for weekend party")
+val msg3 = msg1.copy(sender = "joe.willams@xyz.com", recipient="bob.woodard@some.com")
+
+lazy val:
+=========
+For Lazy evaluation.
+variable does not get evaluated on declaration.
+Variable gets evaluated when it is first accessed in the code.
+
+Regular Expressions:
+====================
+A Regular Expression is a string of characters that is used as a search pattern to find/search for matching values in another string.
+
+^ 	Matches beginning of line.
+$ 	Matches end of line.
+.	Matches any single character, except the newline (\n)
+[...]	Matches any single character in the brackets.
+[^...]	Matches any single character not in the brackets.
+a|b 	Matches either a or b.
+[0-9]	Matches any digits 0 to 9
+[a-z]	Matches any alphabets a-z
+[A-Z]	Matches any alphabets A-Z
+[a-zA-Z0-9] Matches a-z, A-Z or 0-9
+[^aeiou]	Match any characters except vowels.
+[^0-9]		not a digit.
+\\d			a digit
+\\d{3}		match exactly 3 digits
+\\d{3,}		match 3 or more digits
+\\d{3,5}	match 3, 4 or 5 digits
+Sca?		match Sc or Sca: the "a" is optional in the search result.
+Sca*		match sc plus 0 or more "a"s.
+Sca+		match sc plus 1 or more "a"s.
+\\w			match a single word character, i.e.; [a-zA-Z0-9_]
+\\W			match a single non-word character, i.e.; [^a-zA-Z0-9_]
+\\s			match a white space character, i.e.; [\t\n\r].
+\\S 		match a non-white space character, i.e.; [^\t\n\r].
+
+[Mm]atch	Match or match
+cla[sS]sy	classy or claSsy
+
+firstname.lastname@company.com
+^[a-zA-Z]*\.[a-zA-Z]*@[a-zA-Z0-9\-]*\.\\w{2,4}$
+a.b@c.com
+john.smith
