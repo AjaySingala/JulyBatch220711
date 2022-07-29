@@ -792,3 +792,35 @@ firstname.lastname@company.com
 ^[a-zA-Z]*\.[a-zA-Z]*@[a-zA-Z0-9\-]*\.\\w{2,4}$
 a.b@c.com
 john.smith
+
+Exercises:
+1) Exchange the first and last characters of a string and return the new string.
+My name is Ajay		==> yy name is AjaM
+scala> val msg = "This is Scala"
+val msg: String = This is Scala
+
+scala> val len = msg.length
+val len: Int = 13
+
+scala> msg
+val res0: String = This is Scala
+
+scala> len
+val res1: Int = 13
+
+scala> val newmsg = msg.charAt(len - 1) + msg.substring(1, len - 1) + msg.charAt(0)
+
+
+2) Seq("A", "BB", "CCC", "DDDD", "EEEEE")
+A - 1
+BB - 2
+CCC - 3
+DDDD - 4
+EEEEE - 5
+
+3) Create a function that receives a string and a number.
+the function remove the char at the given position and return the result string (without that char).
+"Program", 3 should return "Proram"
+
+
+

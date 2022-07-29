@@ -1,0 +1,94 @@
+Cloud Computing:
+================
+Separate storage and computing. Partially.
+Over the cloud (internet). Partially.
+
+Series of comps put together over a network. No.
+Should be able to share and exchange data - there are multiple servers ---- No.
+
+A VM:
+A machine on another machine. It is not a physical box.
+
+Characteristics and benefits of Cloud Computing:
+- Shared resources.
+- You can provision VMs in minutes.
+- Pay as you go (pay for what you use)
+	- Reduces your cost.
+	- reducing your CapEx (Capital Expenditure)
+	- Instead of CapEx, you have OpEx (Operational Expenditure)
+	- don't pay for rent, electricty, salary of network engineer etc.
+- Scalability
+	- Flexible / configurable.
+	- Whenever the utilization of servers goes > 80% for more than 5 minutes, add 2 more VMs.
+	- Whenever the utilization of servers goes < 40% for more than 5 minutes, remove 2 more VMs.
+	- At any given time, there must be at least 3 VMs running.
+- Accessibility
+	- From anywhere as long as you have internet connectivity.
+- Automatic updates
+- Business continuity
+- Secure
+
+Types of clouds:
+- on-premise (not cloud):
+	- everything is owned and hosted by the organization.
+- Public
+	- Physical servers, storage, networking etc. owned and procured by the cloud service provider (CSP).
+	- No setup & maintenance worries.
+	- Most common type of cloud.
+	- anyone can use - individuals, enterprises.
+	- AWS, Azure, Google Cloud Platform (GCP).
+- Private
+	- located on-premise (at client's premises) or hosted by CSP.
+	- private servers available to specific organization users.
+	- resources are used by the origanzation only and not by public.
+	- government agencies, financial insttitions etc.
+	- cost a bit more than public cloud.
+- Hybrid
+	- on-premise/private and public cloud.
+	- For e.g.; web app is on public cloud and DB server is on-premise/private cloud.
+
+Types of services on cloud (3 core cloud services):
+IaaS: Infrastructure as a Service.
+PaaS: Platform as a Service.
+SaaS: Software as a Service.
+
+DBaaS: DataBase as a Service
+MLaaS: Machine Learning
+CaaS:   Containers
+IDaaS:	Identity (security, user and roles and group management, authentication & authorization).
+	- Authentication: Credentials (are you a valid user).
+	- Authorization: What can you do once authenticated.
+STaaS: Storage
+
+AWS - Amazon Web Service
+EC2 - Elastic Cloud Compute (IaaS)
+S3	- Simple Storage Service
+RDS - Relational Database Service
+
+Amazon Linux VM: ec2-user@<public-dns>
+Ubuntu: ubuntu@<public-dns>
+
+
+S3: storage of files. Not a DB.
+You have to first create a "bucket".
+In the bucket, you can create folders and sub-folders.
+Store files in these folders / subfolders.
+Free only upto a limit.
+Post free limit, there is a charge per GB.
+
+EC2 instances:
+On-Demand: You ask for it and you get it.
+Spot instances: AWS has 10s of thousands of servers. Not all are utilized at all times.
+	Ununtilized instances, they offer at heavy discounts, sometimes at 90% off.
+	It's like an auction. If you "bid" for a spot instance, you have to provide a price. 
+	Let's say you get that instance.
+	Later, if someone else bids a higher price for it, you will lose that instance and it goes to the other person.
+	You will get a notification about it. If you want you can give a higher price.
+
+	AWS EMR Cluster:
+	Master node: 1
+	Task/Data nodes: 1000 Spot Instances
+		even if you lose 20 of them, it's ok.
+
+Reserved Instances:
+	They are reserved for you at a fixed price.
