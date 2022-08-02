@@ -1,0 +1,144 @@
+Apache Spark:
+=============
+Framework to process large amounts of data.
+Clustered computing.
+Runs on memory - is very fast.
+Faster than MapReduce.
+	- MR uses a lot of disk i/o for processing.
+	- Spark does processing in-memory, hence is almost 100 times faster than MR.
+
+Considered to be a "Hadoop Killer" - MapReduce of Hadoop killer.
+Hadoop originally was not built for cloud. It was built many years before Cloud became popular for huge workloads.
+Spark was designed and created keeping in mind huge workloads on the cloud!
+	- It also supports cloud storage like S3.
+	- Easily integtrates with Hadoop environment like HDFS, YARN, HBase, Hive.
+Spark replaces MapReduce for batch processing.
+Spark features:
+	- Speed:
+		-Spark is faster than Hadoop because it uses "in-memory cluster computing".
+			- processing is done parallelly on multiple nodes.
+	- Supports multiple languages: built-in APIs in Java, Scala, Python.
+	- Advanced analytics: Supports not only MapReduce, but also SQL queries, Streaming ML, Graph algorithms etc.
+	- Spark is written in Scala.
+
+Components of Spark:
+	- Apache Spark Core
+	- SparkSQL
+	- Spark Streaming
+	- MLib (Machine Learning)
+	- GraphX
+	
+Spark Architecture:
+-------------------
+(refer to diagram)
+
+How many executors required?
+How to calculate executor memory?
+Consider a cluster with:
+	- Nodes = 10
+	- Each node Cores = 16 (-1 of OS)
+	- Each node RAM = 62 GB (-1 for OS)
+
+No. of cores is the no. of concurrent tasks an executor can run in parallel. So, the general rule of thumb for optimal value is 5.
+
+To calculate the no, of executors:
+No. of executors 	= No. of cores / concurrent tasks
+					= 15 / 5
+					= 3
+					
+no. of total executos for the Spark job = No. of nodes * no. of executors in each node
+										= 10 * 3
+										= 30 executors per spark job.
+
+Define executor memory:
+	spark.executor.memory 
+
+RDDs:
+=====
+Resilient Distributed Datasets
+	- Resilient: able to withstand or recover quickly from failure or difficult conditions.
+	- Distributed: distributed across nodes on the clustet.
+	- Datasets: data that is represneted in rows and columns.
+	
+Require 2 things:
+1. SparkSession
+2. SparkContext
+
+When we us the spark-shell, we get these by default.
+- Spark context available as 'sc'.
+- Spark session available as 'spark'.
+
+To read a text file into an RDD (of strings):
+val file = sc.textFile("file.txt")
+
+Once you have the RDD, you perform Transformations and Actions.
+
+Try a wordcount:
+val counts = file.flatMap(line => line.split(" ")).map(word => (word,1)).reduceByKey(_+_)
+Gives an ERROR. Looks for the file on HDFS.
+
+Specify local path:
+val file = sc.textFile("file:///home/maria_dev/SparkSamples/sparkscala/src/main/scala/example/twinkle.txt")
+
+Try again:
+val counts = file.flatMap(line => line.split(" ")).map(word => (word,1)).reduceByKey(_+_)
+
+Display results:
+counts.collect()						// Action.
+counts.saveAsTextFile("path")			// Action, that saves the RDD on HDFS into files inside a folder named "path".
+counts.saveAsTextFile("file://path")	// Action, that saves the RDD on local machine into files inside a folder named "path".
+counts.cache()							// Transformation. Persist in cache.
+counts.unpersist()						// Unpersists the storage.
+
+SparkContext and SparkSession:
+==============================
+SparkContext (SC):
+-------------
+In previous version of Spark (includes PySpark), SC was the entry point for Spark programming with RDD and to connect to the cluster.
+With Spark 2.0, SparkSession (SS) was introduced and became the entry point for programming with Datasets (DS) and DataFrames (DF).
+
+SC is part of org.apache.spark package, used to create RDDs, accumulators, broadcast variables on the cluster. The object in spark-shell is "sc".
+Since Spark 2.0, most of the functionalities available in SC are also available in SS.
+SS is the new entry point, used to create RDDs, DF and DS. The object in spark-shell is "spark".
+
+How to load your code from your dev machine to VM so that you can run the spark jo on your vm?
+1) On the dev machine, create a package in sbt by running "package" in sbt.
+2) copy the .jar file from dev PC to VM using the scp command:
+scp -P 2222 *.jar maria_dev@sandbox-hdp.hortonworks.com:/home/maria_dev
+3) on the VM, run spark-submit:
+spark-submit ./sparkscala_2.11-0.1.0-SNAPSHOT.jar --class sparkbasics.WordCountExample
+
+RDD Transformations:
+--------------------
+map(func)
+filter(func)
+flatMap(func)
+union(anotherRDD)
+intersection(anotherRDD)
+distinct()
+groupByKey()	: Works on a set of K-V pairs, returns a dataset of (K, Iterable<V>) pairs.
+reduceByKey()
+sortByKey()		: requires a set of K-V pairs
+	- sortByKey(ascending=false)
+join(otherRDD)
+coalesce(numOfPartitions)	: Reduce the no. of partitions.
+repartition(numOfPartitions)
+
+RDD Actions:
+------------
+collect()
+count()
+first()	: similar to take(1).
+take(n)	: an array of the first "n" elements.
+saveAsTextFile(path)
+foreach(func)
+countByKey()	: works only on RDDs that have K-V pairs.
+
+Transformation vs Action:
+T: is lazy in operation. Gets executed only when you perform an action on the RDD.
+
+RDD Lineage:
+------------
+Transformations allow you to create dependencies between RDDs.
+Each RDD in the dependency chain has a function for calculating its data and has a pointer (dependency) to its parent RDD.
+

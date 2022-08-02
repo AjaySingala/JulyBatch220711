@@ -1,4 +1,4 @@
-Scala:
+	Scala:
 ======
 Scala is an OO language.
 	Classes, inheritance, polymorphism etc.
@@ -642,7 +642,7 @@ val newColors = colorMap + color2		// Error!
 // use this instead.
 val newColors = colorMap + ("yellow" -> 0x0FF001)		// retrurns a new combined map.
 
-// Remov element:
+// Remove element:
 scala> val removedElem = newColors - ("red")	// returns a new map with all elems except "red".
 val removedElem: scala.collection.immutable.Map[String,Int] = Map(green -> 65280, blue -> 255, yellow -> 1044481)
 
