@@ -142,3 +142,113 @@ RDD Lineage:
 Transformations allow you to create dependencies between RDDs.
 Each RDD in the dependency chain has a function for calculating its data and has a pointer (dependency) to its parent RDD.
 
+03-Aug-2022:
+============
+Creating an RDD using the sc.parallellize() method:
+val numbers = sc.parallelize(Seq(("A",1), ("B", 2), ("C",3)))
+
+sc.parallelize(): It distributes the data in the RDD across nodes on the cluster.
+
+RDD join() and groupBy():
+-------------------------
+groupBy() vs cogroup():
+	For groupBy(), you work on a single dataset (RDD, DF).
+		val newrdd = rdd1.groupBy(func)
+	For cogroup(), you work on 2 or more datasets.
+		val newrdd = rdd1.cogroup(rdd2)
+		
+Shared Variables:
+=================
+- Broadcast variables
+- Accumulators
+
+Broadcast variables:
+--------------------
+eCommerce data set that has order data that has details about orders placed. For e.g.;
+OrderId,OrderDate,CustomerId,ProductId,Qty,Rate
+
+ProductName from Products data set.
+CustomerName, City, State from Customers data set.
+
+Probably, join these data sets together to perform some aggregations etc.
+Since they are RDDs, all 3 data sets will be distributed across nodes for the processing.
+
+Instead use Broadcast Variables (BV).
+BVs read-only variables cached on each machine rather than shipping a copy with the tasks.
+For e.g.; when you create BV RDD of the Products data set, it will make this BV available to the nodes in a very efficient, reduced communication algorithm for the tasks to access.
+When you do a join (or use the BV along with another data set), the BV is not sent to the nodes with the task. It is used by the nodes from the cache that was made available as part of the BV config.
+
+Syntax:
+spark.sparkContext.broadcast(data)
+
+Accumulators:
+-------------
+When you want to "add" values ("sum" operation) on a set of data that is spread across the cluster.
+
+Format of log file:
+city,locality,category of item sold,value of the item sold.
+Dallas,Central Ave,Groceries,38
+
+Reston,Main St.,Hair Care, 23
+Bad data packet
+Boston,Qunicy Ave,Beverages,65
+
+var blankLines: Int = 0
+sc.testFile("myapp.log").foreach{ line => if(line.length == 0) blankLines += 1 } 
+println(s"There are $blankLines in the file.")
+
+The problem with this code is that when the driver program runs and prints the value of the variable blankLines, it may not give the correct results because Spark ships the code to every executor on the cluster, so the variable becomes local to that executor, and hence it is updated locally and not passed back to the driver. Due to this, the driver program will print it a zero.
+
+To overcome this, we need to use some kind of shared variable that can be accumulated across executors. And that shared variable is Accumulators in Spark.
+
+So the code will look something like this:
+var blankLines = sc.accumulator(0, "Blank Lines")
+sc.testFile("myapp.log").foreach{ line => if(line.length == 0) blankLines += 1 } 
+println(s"There are $blankLines in the file.")
+
+Paired RDDs:
+============
+Key-Value Pair RDDs.
+Transformations: groupByKey, reduceByKey, sortByKey
+Actions: countByKey
+
+collectAsMap():
+(Brazil,1)
+(Canada,1)
+(Germany,1)
+(China,1)
+(Russia,1)
+(India,1)
+(USA,1)
+
+collect():
+(Germany,1)
+(India,1)
+(USA,1)
+(USA,1)
+(India,1)
+(Russia,1)
+(India,1)
+(Brazil,1)
+(Canada,1)
+(China,1)
+
+aggregateByKey on Paired RDDs:
+------------------------------
+It is another way of using reduceByKey(), but a bit more complicated.
+
+Because aggregateByKey has 3 main inputs/functions, 1 of them works on output of each of the RDD partition transformation. And if there is only single partition in RDD then that function will not be called.
+
+aggregateByKey requires 3 main inputs:
+1.	zeroValue: Initial value (mostly Zero (0)) which will not affect the aggregate values to be collected. For example, 0 would be initial value to perform sum or count or to perform operation on String then the initial value will be empty string.
+2.	Combiner function: This function accepts two parameters. The second parameter is merged into the first parameter. This function combines/merges values within a single partition.
+3.	Reduce/Merge function: This function also accepts two parameters. Here, parameters are merged into one across RDD partitions.
+Syntax:
+dataframeRDD.aggregateByKey(init_value)(combinerFunc,reduceFunc)
+
+For e.g.;
+    def param1= (accu:Int,v:Int) => accu + v
+    def param2= (accu1:Int,accu2:Int) => accu1 + accu2
+    println("Aggregate by Key ==> wordcount")
+    val wordCount2 = pairRDD.aggregateByKey(0)(param1,param2)
+	
