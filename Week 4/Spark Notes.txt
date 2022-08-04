@@ -252,3 +252,62 @@ For e.g.;
     println("Aggregate by Key ==> wordcount")
     val wordCount2 = pairRDD.aggregateByKey(0)(param1,param2)
 	
+04-Aug-2022:
+============
+SparkContext and SparkSession:
+------------------------------
+What is SparkContext (SC)?
+The driver program (Spark application / job) uses the SparkContext to connect and communicate with the cluster and it helps in executing and coordinating the Spark job with the resource managers (YARN, Mesos).
+Using SC, you can get access to other contexts like SQLContext, HiveContext etc.
+Use it to set configuration parameters for the spark jobs.
+
+What is SparkSession (SS)?
+It was introduced in Spark 2.0.
+Once you have a SS, you automatically have access to SC as well.
+SS is the new entry of Spark and it replaces the old SQLContext and HiveContext, although they are still available for backward compatibility.
+Once we have access to a SS, we can start working with DataFrames / DataSets.
+
+SparkSQL & DataFrames:
+======================
+DataSets (DS):
+--------------
+DS is a distributed collection of data.
+Very similar to a RDD, but strongly typed and has benefits of SparkSQL's optimized execution engine.
+DS API is available in Scala and Java.
+It is not available in Python. You cannot use SparkSQL DS in Python.
+
+DataFrame (DF):
+---------------
+A DF is a DS organized in named columns.
+It is equivalent to a table (in a RDBMS) with rows and columns.
+But has better optmization under the hood.
+Create DFs from various sources: files, DBs, Hive, RDDs.
+DF API is available in Scala, Java, Python and R.
+In Scala and Java, a DF is represented by a DataSet of Rows, i.e.; Java: DataSet<Row>. Scala: DataSet[Row].
+
+Features of DS / DF:
+- Optimized query feature: Catalyst Query Optimizer framework.
+- Compile-time analysis: checks for syntaxes at compile time. 
+- Interconvertible: you can convert RDDs DFs, DFs to DSs, DSs to DFs.
+- Faster computation: DS are faster than RDDs. DFs are faster than DS.
+- Can also use persistent storage, if required.
+- Less memory consumed : makes use of caching to create optimal data layouts.
+- Single API that can be used from Scala and Java.
+
+Executing SQL queries on DFs:
+-----------------------------
+1. Create a temporary view from the DF.
+	df.createOrReplaceTempView("viewname")
+	This temp view is available as long as your SparkSession is active.
+	Temp view are only available within the SparkSession where they have been created.
+2. Run your sql query on the temp view (returns a new DF):
+	val newdf = spark.sql("query")
+	val newdf = spark.sql("SELECT * FROM people_view")
+	
+Global Temporary View (GTV):
+	- There is a Global Temporary View as well.
+	- Syntax: df.createGlobalTempView("people")
+	- GTV are available across SparkSessions.
+	- To use the GTV, use the db name global_temp as follows:
+	spark.sql("SELECT * FROM global_temp.people").show()
+	
