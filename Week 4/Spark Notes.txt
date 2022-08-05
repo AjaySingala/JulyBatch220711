@@ -390,3 +390,8 @@ df1.join(df2)
 df1.join(right=df2)
 
 def join(val right, val usingColumns, val joinType)
+
+Reference URLs for using AWS with Spark:
+http://beginnershadoop.com/2019/09/27/accessing-data-stored-in-amazon-s3-through-spark/
+https://sparkbyexamples.com/spark/spark-read-write-parquet-file-from-amazon-s3/
+https://sparkbyexamples.com/spark/spark-read-text-file-from-s3/
