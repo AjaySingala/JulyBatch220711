@@ -395,3 +395,38 @@ Reference URLs for using AWS with Spark:
 http://beginnershadoop.com/2019/09/27/accessing-data-stored-in-amazon-s3-through-spark/
 https://sparkbyexamples.com/spark/spark-read-write-parquet-file-from-amazon-s3/
 https://sparkbyexamples.com/spark/spark-read-text-file-from-s3/
+
+SparkSQL rank():
+https://www.projectpro.io/recipes/explain-window-ranking-functions-spark-sql
+https://stackoverflow.com/questions/42617725/rank-function-usage-in-spark-sql
+https://kontext.tech/article/573/spark-sql-rank-window-function#:~:text=About%20RANK%20function,returned%20values%20are%20not%20sequential.
+
+
+Unit Testing:
+=============
+We create test code files with a suffix of either "test" or "spec".
+
+In a given unit test, you may be testing multiple methods.
+For each method, you would have to create a SparkSession so that you can then work with SparkSQL and other features of SparkSession & SparkContext.
+So, if you have 3 methods to be tested, you will create 3 test methods and each of them will require SparkSession object.
+Instead of creating a SparkSession object again and again for each method, just create it once and let the test methods use that same object.
+To do this, implement the "beforeEach()" method.
+What scala unit test does is before running each test case, it will run the beforeEach() method.
+Each test case is used to test individual methods in your code.
+Each class that you write for unit tests is called a "test suite".
+The class should extend the class FunSuite and BeforeAndAfterEach:
+	class ReadAndWriteTestSpec extends FunSuite with BeforeAndAfterEach {
+	}
+We don't write "functions" for test cases. What we write are actual test cases using the format:
+test("name of the test") {
+	the code to do the testing goes here.
+}
+
+To run all unit test in your project, just run the command "test" in sbt.
+sbt:projectname> test
+
+Run a specific test suite (class):
+sbt:projectname> Test / testOnly example.ReadAndWriteTestSpec
+
+Run a particulare test case:
+sbt:projectname> Test / testOnly example.ReadAndWriteTestSpec -- -z "Write a data frame as csv file"

@@ -1,0 +1,55 @@
+Q. Give me a quick background of yourself?
+Q. Were there any hands-on exercises as part of the training?
+Interviewer introduced himself.
+Q. Talk to me about the projects that you executed as part of your training and your experience on them.
+Q. Can you talk to me about the Agile ceremonies you followed as part of your training / projects?
+Q. Did you use a Kanban board or anything similar?
+Q. Did you have demos on completion of your user stories?
+Q. What libraries did you use as part of your Python training / project?
+Q. Have you used Goto3 (for communicating with AWS)?
+Q. Do you know anything about a Data Mapping document?
+Q. Diff b/w OLTP and OLAP?
+Q. What is a slowly changing dimension?
+Q. Types of slowly changing dimension?
+Q. E.g.; Type 2 tables: Alex, Addresses where Alex has stayed from 2000 to 2022. Find out the present working address of Alex.
+Q. What if the records have start and end date for the addresses and the current address has high date (9999-12-31)?
+Q. What is a Fact table.
+Q. What is a Confirmed dimension?
+Q. Talk about the COVID project that you implemented. Right from orchestration to visualization.
+Q. Did you upload the csv data into MySQL or wrote a spark code?
+Q. What is the role of HDFS here (in the project).
+Q. How to connect SparkSQL to MySQL?
+Q. What is an RDD in Spark?
+Q. How to convert RDD to data frame?
+Q. Any challenges when converting RDD to DF?
+	(think about partitions, too few? too many?)
+Q. SparkSQL on local or Glue?
+Q. Used any anlytical queries like groupby or partitionby?
+Q. Have you used a Rank function in SQLs?
+Q. Any questions for me?
+
+Q. Introduce yourself and talk about your training.
+Q. Talk about your projects in the training.
+Q. Did you only manage or participated in the development process?
+Q. Do you know what is a correlated sub-query?
+Q. Assume there are 2 tables Orders - OrderId, OrderDate, ItemName, AccountId, Qty, Amount, OrderedCompleted, OrderCreateDate. Accounts: e.g.; AccountId, AccountName.
+1 account can have many orders.
+Find out all orders associated with "Walmart" and are not completed.
+Now, find out what are the total quantity and total amount for orders not completed.
+Q. Have you started working on S3?
+Q. Any questions for me?
+
+Q. Introduce yourself and talk about your training.
+Q. Are you using Zeppelin in your project?
+Q. What project are you working on right now?
+Q. Do you have a demo of the project for me?
+Q. Where is the data being read from? CSV, JSON? HDFS? S3?
+Q. What is the format you are writing into HDFS? And what are the different formats available.
+Q. Have you written any unit tests?
+Q. Any automated test cases that you have written?
+Q. How do I partition the data by date in SparkSQL?
+Q. What is an external table in Hive?
+Q. Can we delete records from an External Table in Hive?
+Q. Any visualizations used in projects?
+Q. What is your role in the current project?
+Q. Any questions for me?
