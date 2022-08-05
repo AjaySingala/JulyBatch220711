@@ -16,7 +16,7 @@ import org.apache.spark.sql._
 import org.apache.spark.sql.expressions._
 import org.apache.spark.sql.functions._
 
-object JoinCogroup { // extends App {
+object JoinCogroup extends App {
     case class Row(id: Int, value: String)
 
     private[this] implicit val spark = SparkSession.builder().master("local[*]").getOrCreate()
@@ -42,29 +42,29 @@ object JoinCogroup { // extends App {
         r1.join(right = r2, usingColumns = Seq("id"), joinType = joinType).orderBy("id").show() 
     })
 
-    // Cogroup.
-    println("\ncogroup()...")
-    val myrdd1 = sc.parallelize(List((1,"physics"),(2,"sanskrit"),(3,"hindi"),(4,"physical"),(6,"computer")))
-    val myrdd2 = sc.parallelize(List((4,"english"),(5,"arts"),(6,"social"),(1,"bio"),(1,"chemistry")))
-    val result = myrdd1.cogroup(myrdd2)
-    result.collect().foreach(println)
+    // // Cogroup.
+    // println("\ncogroup()...")
+    // val myrdd1 = sc.parallelize(List((1,"physics"),(2,"sanskrit"),(3,"hindi"),(4,"physical"),(6,"computer")))
+    // val myrdd2 = sc.parallelize(List((4,"english"),(5,"arts"),(6,"social"),(1,"bio"),(1,"chemistry")))
+    // val result = myrdd1.cogroup(myrdd2)
+    // result.collect().foreach(println)
 
-    // join and groupBy using RDD.
-    println("join() and groupBy() using RDD...")
-    case class Item(id:String, name:String, unit:Int, companyId:String)
-    case class Company(companyId:String, name:String, city:String)
+    // // join and groupBy using RDD.
+    // println("join() and groupBy() using RDD...")
+    // case class Item(id:String, name:String, unit:Int, companyId:String)
+    // case class Company(companyId:String, name:String, city:String)
 
-    val i1 = Item("1", "first", 2, "c1")
-    val i2 = i1.copy(id="2", name="second")
-    val i3 = i1.copy(id="3", name="third", companyId="c2")
-    val items = sc.parallelize(List(i1,i2,i3))
+    // val i1 = Item("1", "first", 2, "c1")
+    // val i2 = i1.copy(id="2", name="second")
+    // val i3 = i1.copy(id="3", name="third", companyId="c2")
+    // val items = sc.parallelize(List(i1,i2,i3))
 
-    val c1 = Company("c1", "company-1", "city-1")
-    val c2 = Company("c2", "company-2", "city-2")
-    val companies = sc.parallelize(List(c1,c2))
+    // val c1 = Company("c1", "company-1", "city-1")
+    // val c2 = Company("c2", "company-2", "city-2")
+    // val companies = sc.parallelize(List(c1,c2))
 
-    val groupedItems = items.groupBy( x => x.companyId) 
-    val groupedComp = companies.groupBy(x => x.companyId)
+    // val groupedItems = items.groupBy( x => x.companyId) 
+    // val groupedComp = companies.groupBy(x => x.companyId)
 
-    groupedItems.join(groupedComp).take(10).foreach(println)
+    // groupedItems.join(groupedComp).take(10).foreach(println)
 }

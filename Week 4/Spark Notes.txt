@@ -89,6 +89,7 @@ counts.saveAsTextFile("path")			// Action, that saves the RDD on HDFS into files
 counts.saveAsTextFile("file://path")	// Action, that saves the RDD on local machine into files inside a folder named "path".
 counts.cache()							// Transformation. Persist in cache.
 counts.unpersist()						// Unpersists the storage.
+counts.toDebugString()					// Description of the RDD and its dependencies.
 
 SparkContext and SparkSession:
 ==============================
@@ -311,3 +312,81 @@ Global Temporary View (GTV):
 	- To use the GTV, use the db name global_temp as follows:
 	spark.sql("SELECT * FROM global_temp.people").show()
 	
+05-Aug-2022:
+============
+Spark Deploy Modes:
+===================
+Local (Client) Mode and Cluster Mode.
+
+Client Deploy Mode in Spark:
+----------------------------
+spark-submit --deploy-mode client <jar file> --class <class>
+Is the default deployment mode.
+spark-shell runs in client mode.
+
+The driver program runs on the same machine from which the job has been submitted.
+Only the driver program runs locally, all tasks run on the cluster worker nodes.
+The main drawback is if the driver program fails (CTRL+C), the entire job will fail. All tasks of this job running on all other worker nodes will also terminate.
+There is no way for Spark to recover from this.
+Should not be used for Production jobs.
+
+Cluster Mode in Spark:
+----------------------
+spark-submit --deploy-mode cluster <jar file> --class <class>
+The driver program will not run on the machine from where the job was submitted.
+It runs on the cluster as a sub-process of the ApplicationMaster.
+In case of a failure, the ApplicationMaster reinstates the driver program.
+Cluster mode is for jobs running in Production.
+It is not supported in spark-shell (interactive shell mode).
+
+Parquet Files:
+==============
+Smaller in size (than csv, json) because it is serialized (compressed).
+Stores data in columnar file format.
+Much more efficent than CSV and JSON.
+Captures the schema of the data as well - the schema is stored (encapsulated) along with the data.
+Because it is serialized, it reduces storage by almost 75%.
+
+
+withColumn():
+=============
+Is a DF transformation function used to:
+	- change the value of a column
+	- convert the data type of an existing column.
+	- create a new column.
+
+To rename a column, use withColumnRenamed() transformation function.
+use drop() transformation function to delete / drop a column.
+
+Nested StructType Schema:
+Standard: Firstname,Lastname,Age,Salary
+
+Nested:
+{Name:Firstname,Lastname},Age,Salary
+
+JSON:
+{
+	"name": {
+		"firstname": "John",
+		"lastname": "Smith"
+	},
+	"age": 54,
+	"gender": "M",
+	"salary": 4444
+}
+
+{
+	"firstname": "John",
+	"lastname": "Smith",
+	"age": 54,
+	"gender": "M",
+	"salary": 4444
+}
+
+
+join():
+=======
+df1.join(df2)
+df1.join(right=df2)
+
+def join(val right, val usingColumns, val joinType)
