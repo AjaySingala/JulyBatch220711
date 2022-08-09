@@ -1,0 +1,135 @@
+Data Warehousing:
+=================
+What is a Data Warehouse (DW)?
+It is a repository (some kind of a DB) of current and historical information.
+It is designed to enchance the performance of an organization / enterprise.
+	- Optimizing processes.
+	- Predicting trends
+	- Determining current performance
+	Performance ===> increased productivity, increased revenue/sales, increased profits, decreased cost.
+	
+The data in this DW is pulled from many sources - database, external partner system, customer-facing application, etc.
+For e.g.; Sales data. Sources would be internal applications like Sales, Marketing, Finance, ecommerce application, any external systems (like suppliers etc.).
+
+Key characterstics of DW:
+-------------------------
+Is a
+- Subject-oriented,
+- Integrated,
+- Time-variant,
+- Non-volatile
+collection of data, which supports the management's decision making process.
+
+Subject-oriented:
+-----------------
+DW is subject-oriented because it provides topic-wise information, rather than the overall process of a business.
+Subjects like sales, inventory, marketing/promotions etc.
+If you want to do some analysis of your company's sales data, you will have to build a DW that concentrates on Sales.
+"Who was your best customer in the last year?"
+"Who would likely be your best customer next year?"
+
+Data vs Information:
+--------------------
+We derive information from data.
+Data is in raw form. Information is when you create some context from the data (more organized).
+
+So, from an ecommerce site, all order details captured is the "data".
+Then, you take this data, cleanse it or filter it, and only take that data that can help you perform some analysis.
+	Things like which products, which customers, how much quantity (and their price), which region (of customers), when (date-time).
+You will take these "data elements" and store them in a DW on a regular basis (not real-time).
+Once you have this data, you process it. This will give you "information" that will help you determine current position of your comapny and also enable you to identify trends and come up with forecasts.
+Decisions are taken based on the information that comes out from the data.
+
+Integrated:
+-----------
+A DW is developed by getting (integrating) data from various sources and not necessarily just one DB (data source).
+And the data has to be in a consistent format.
+The data that is stored in the DW must be in a consistent and stored in a manner that is acceptable universally (accepted by all stakeholders) in terms of naming conventions, coding.
+Facilitates effective data analysis.
+
+Non-Volatile:
+-------------
+Volatile == change (how often does it change).
+Operational updates of data do not occur on the DW, updates, insert, delete ops.
+The DW should always be "updated" only via the ETL job sitting b/w the live DB and the DW.
+	OLTP -> OnLine Transaction Processing ==> Live DV
+	OLAP -> OnLine Analytical Processing  ==> DW
+Data once entered in the DW must remain unchanged.
+All data is read-only.
+Previous data is not erased when new (current) data captured / entered.
+
+Time-Variant:
+-------------
+The data stored in a DW is documented with an element of time.
+Any data stored in the DW must have an element of time like the day, week, month or year.
+
+Since DW stores historical data, if this data is time-variant, you can retrieve data/files from 3 months, 6 momths, 12 months or even any previous data from the DW.
+
+What is the need of a DW?:
+--------------------------
+1. Business Users: they require the DW to view summarized data from the past. Non-technical. The data is presented to them as information in a very elementary form (in a visual format).
+2. Store historical data: DW is required to store time variable data from the past.
+3. Make strategic decisions: Some strategies may depend upon the data stored in the DW. So, DW contributes to making of strategic decisions.
+4. For data consistency and quality: Inability to delete/update/insert data addes to quality & consistency. Bringing the data in the DW (common place) from different sources, but storing it in a single recognized format. The user can effectively bring uniformity and consistency in the data.
+5. High response time: DW has to be ready for unexpected loads and the types of queries that will be executed. This demands a significant degree of flexibility and quick response time.
+
+Database (OLTP, Operational DB) vs Data Warehouse (OLAP):
+=========================================================
+1. DB involves day-to-day processing. DW involves historical processing of information.
+2. DB are OLTP sytems used by clerks, DBAs, or DB professionals. DW are OLPA systems used by knowledge workers like executives, managers, analysts etc.
+3. DB is used to run the business. DW is used to analyze the business.
+4. DB focuses on Data in. DW focuses on Information out.
+5. DB is based on ERM (Entity Relationship Model) on which you create ERDs (Entity Relationship Diagrams). DW is based on Star Schema, Snowflake Schema etc.
+6. DB is application oriented. DW is designed keeping in mind the information to be generated.
+7. DB contain current data. DW can contain current as well as historical data.
+8. DB provides flat relational view of the data. DW provides summarized and multidimensional view of the data.
+9. DB the no. users could be in thousands. DW the no. could possibly be in the hundreds.
+10. DB the no. of records accessed is in tens-of-thousands. DW the no. of records accessed is in millions.
+11. DB designed keeping in mind the performance of the application generating / using the data. DW is designed keeping mind the flexibility of generating the information in a timely manner.
+
+Types of DWs:
+-------------
+- Enterprise DW (EDW).
+	- Serves as the central database that facilitates decision-support services of the enterprise.
+	- Gives access to cross-organizational information.
+- Operational DW System (ODS).
+	- Refreshes in real-time. Storing employee records.
+- Data Mart (DM).
+	- A subset of DW built to maintain a particular department or region or business unit.
+	- Every "unit" (dept., region etc.) will have a central repo of it's own - data mart.
+	- The data is refreshed periodically.
+	
+The data from the DM is stored in the ODS periodically. Then the ODS sends the data to the EDW, where it is stored and used at the org level for enterprise-wide strategic decisions.
+
+DW Tools:
+---------
+These are nothing by software components used to perform operations on huge data sets.
+They help to collect, read, write and transfer data from various sources.
+DW application categories:
+- Query and reporting tools.
+- Application development tools.
+- Data mining tools.
+- OLAP tools.
+
+Functions of DW:
+----------------
+- Data Extraction - gathering data from different sources.
+- Data Cleaning - finding and correcting errors in data.
+- Data Transformation - converting the data from legacy (or OLTP sources) to warehouse format.
+- Data Loading - sorting, summarizing, consolidating, checking integrity, creating partitions etc.
+- Refreshing - Updating data from various sources at regular intervals.
+
+Benefits of DW:
+---------------
+Improved data consistency.
+Better business decisions.
+Easier access to enterprise data to end-users (central repo).
+Better documentation of the data (data mapping).
+Reduce costs and improve productivity.
+Enable end-users to run ad-hoc queries or reports without affecting the performance of the operational system (RDMBS, OLTP).
+Collection of related data from various sources into a single common place.
+
+DW Archiretecture with a single DW.
+DW Archiretecture with a staging area.
+DW Archiretecture with a staging area and Data Marts.
+
