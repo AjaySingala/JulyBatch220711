@@ -133,3 +133,198 @@ DW Archiretecture with a single DW.
 DW Archiretecture with a staging area.
 DW Archiretecture with a staging area and Data Marts.
 
+10-Aug-2022:
+============
+ETL Process:
+============
+Extraction, Transaction and Loading.
+It is the mechanism to extract info/data from source systems and bring it into the DW.
+How ETL works?:
+---------------
+1. Extraction: The operation of extracting / fetching data from source system(s) to be used and processed in the DW.
+	It is possible that the source system might be complicated and there could be lack of documentation of the data to be extracted.
+	It becomes difficult to determine the data required to be extracted.
+2. Cleansing: A very crucial stage in ETL because it improves the quality of the data.
+3. Transformation: Convert the source data into a format that is recognizeable by the DW.
+4. Loading: This process is where the data is written to the target DB (DW). It is very important to ensure that the load is performed properly, and with with as little resources as possible.
+	Can be done in 2 ways:
+		i. Refresh: DW is completely rewritten. Older files/data are replaced with newer ones.
+		ii. Update: Only changes applied (or done) to the source system are added to the DW (a.k.a. an incremental update).
+
+You can also do an ELT: Extract, Load & Transform.
+
+Data Mart:
+==========
+A Data Mart (DM) is a subset of the entire data set that you have, usually oriented to a specific purpose (primary subject).
+For e.g.; for a specific department, business unit, community, region, country.
+DMs are derived from the data that exists in the DW or you can directly create the DMs and then use them further in the EDW.
+
+The fundamental use of a DM is Business Intelligence (BI) applications.
+BI used to gather, store, access and analyze records.
+Can be used by smaller businesses / units as it becomes less expensive than implementing a full-fledged DW.
+
+Reasons for creating a DM:
+- Created by a specific group of users.
+- Easy access to the frequently required data.
+- Easy to create.
+- Improves end-user response time.
+- Lower cost than implementing a complete DW.
+- Less cluttered as it has only essential business data.
+
+ETL and Big Data:
+=================
+When working with Big Data, we do end up using ETL in some form or the other.
+Tools in Big Data (Hadoop) for ETL:
+1. Load data into HDFS.
+2. Use Hadoop Pig to transform the data in HDFS.
+3. Load data into a Hive-based DW.
+	- Hive is not a DB (is not a RDBMS!!!).
+	- Hive is a Distributed DW!
+4. Perform further ETL aggregations in Hive.
+5. Leverage Sqoop to integrate RDBMS with Hadoop.
+
+There is also Apache HBase, Apache Flume, Apache Oozie, Apache Zookeeper.
+
+Apart from these, you can also use Spark and Kafka.
+
+Hadoop is not an ETL Tool. It is an ETL Helper.
+
+Dimensional Modeling:
+=====================
+RDBMS: we do ERD / ERM (Entity Relationship Modeling)
+DW: Dimensional Modeling (DiMo).
+
+DiMo represents data with a "cube operation", to enable the data to be viewed and anazlyed from different angles/sides/views.
+DiMo was developed by Ralpha Kimball.
+DiMo consists of "facts" and "dimensions".
+
+The transaction record is divided either into "facts", which are basically numerical txn data or into "dimensions". which are reference information that gives context to the fact.
+
+For e.g.; a Sale Txn: can be divided into:
+	- facts such as the number of products ordered and the price paid for the products.
+	- dimensions such as Order Date, username, product number, bill-to / ship-to locations, salesman responsible for the order.
+	
+Facts are the data that you want to perform the analysis on.
+Dimensions are the references based on which you analyze the facts.
+
+Select ProductId, ProductName, City, SUM(Qty) as 'TotalQuantity';, SUM((Qty * Price) as 'TotalAmount')
+FROM dw
+WHERE City = 'Seattle'
+AND OrderDate BEWTEEN '2022-01-01' AND '2022-06-30'
+GROUP BY ProductId, ProductName, City
+
+Measure: It is a numeric attribute of a fact, which represents the performance or behavior of the business relative to the dimension.
+
+For the "facts", we create "Fact Tables".
+For the "dimensions", we create "Dimension Tables".
+
+Fact Table:
+-----------
+Includes numerical values of what we measure.
+Each Fact Table includes "keys" to be associated with dimension tables. These keys are known as "foreignb keys" in the fact table.
+Typically, fact tables have a small number of columns.
+Compared to a dimension table, fact tables have a large number of rows.
+
+Dimension Table:
+----------------
+Establish the context of the facts.
+Store the fields that describe the facts.
+
+Multi-Dimensional Data Model: When you have more than 1 Dimension tables.
+
+Star Schemas:
+-------------
+We have de-normalized DB that can quickly provide query responses.
+
+
+Snowflake Schema:
+-----------------
+When Dim tables have references to other Dim tables.
+
+Data Cube:
+==========
+3-D Cube or 3-Dimensional Cuboid.
+
+Slowly Changing Dimensions (SCD):
+=================================
+Are the dims in which the data changes slowly rather than regulary on a time basis.
+
+SCD Types:
+----------
+Type 0: A Fixed Dim. Changes to the data are not allowed.
+Type 1: Maintains only the current state. No historical is allowed. Changes to the data are updated.
+Type 2: History is maintained. All changes to the data are recorded and stored.
+Type 3: Only the current state and previous state are maintained.
+Type 4: Maintain only the current state in this Dim table and record all other changes in another table.
+Type 5: Hybrid. Combo of 1, 2 and 3 to track all changes to the data.
+
+Typically, types 1, 2 and 3 are used.
+
+Type 2 is most commonly used.
+Type 2 SCD:
+	- Versioning: 1,2,3 or 0.1, 0.2, 0.3.
+	- Flags: 0, 1 
+		customer's current country is USA, so the record will be flagged as:
+			Id	CustomerId	Name		Country		Flag
+			1	101			John Smith	USA			1
+		customer oves to Canada. So the records will be as:
+			Id	CustomerId	Name		Country		Flag
+			1	101			John Smith	USA			0
+			2	101			John Smith	USA			1
+	- Effective date: there will be a start and end date to the records:
+			Id	CustomerId	Name		Country		start_date	end_date
+			1	101			John Smith	USA			1999-03-15	2022-02-16
+			2	101			John Smith	Canada		2022-02-17	9999-12-12
+
+		
+Conformed Dimensions:
+=====================
+A Conformed Dimension (CD) is a dim that has exactly the same meaning and content when being referred from different fact tables.
+A CD can refer to multiple tables in multiple data marts within the same organization.
+
+2 Dim tables, both having country data:
+Dim_country_1
+101	USA
+102 Canada
+103	Mexico
+104	UK
+
+Dim_Country_2
+101	Mexico
+102	USA
+103	UK
+104 Canada
+
+Dim_Country_3
+101	USA
+102 Canada
+103	Mexico
+104	UK
+
+If the data in 2 dims tables is exactly the same except for the PK, they are not considered to be CDs.
+In the above example, _1 and _3 are CDs.
+
+The "time" is a common CD in any organization.
+The year 2022 will never be 2021.
+16th Oct will never be identified as 15th Oct.
+
+Fiscal Year vs Calendar year.
+Fiscal Year could Apr to Mar.
+Calender Year could be Jan to Dec.
+Just create 2 diff conformed dims (tables).
+
+Data Mapping (document):
+========================
+What is Data Mapping?:
+----------------------
+It is the process of taking one set of data (source - RDBMS) and assign (map) it to it's destination (target - DW).
+The goal of Data Mapping is to make your org's data more structured and accessible to teams or customers or partners.
+
+Data Mapping Document is where you record each and every source field, how does it map to all other target application's fields.
+
+Steps for Data Mapping:
+1. Identify all data fields that must be mapped.
+2. Standardize naming conventions across sources.
+3. Create data transformation rules and schema logic.
+4. Test your logic.
+5. Complete the migration, integration or transformation.
