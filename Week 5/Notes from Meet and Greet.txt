@@ -1,0 +1,27 @@
+Foundational progamming - with basic structures.
+What is DW
+OLTP vs OLAP
+Dim modeling concepts
+SQL Joins
+Py+Scala
+Spark/SparkSQL
+Big Data Concepts
+Hadoop, ETL
+	insert strategy, migration, lift-n-shift
+	History data load
+	incremental load
+Testing, staging, PROD
+debugging & unit testing
+transformation using Py+Scala, Spark
+Cloud (AWS), Glue
+concepts
+Git deployment process
+DevOps check-in, check-out
+Airflow
+unit testing (Py)
+
+Audit: Audit refers to maintaining a log of all the operations related to the ETL flow (the start/end date and time, number of rows processed, inserted, updated, and rejected/deleted in each step. One can take this to a deeper level and record the column-level audit report such as how many values are updated per column, etc.
+
+Balance: We need to be able to explain the difference between the source(s) and target(s) in each step of the process, whether it’s a Data Integration, Data Migration, or any other process that copies/moves the data from a source to a target. It’s about ensuring data quality and integrity. This process primarily helps with data reconciliation.
+
+Control: Control activity refers to the design aspect of restartability, exception handling, scheduling, and automation in general.

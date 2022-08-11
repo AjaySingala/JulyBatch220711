@@ -1,0 +1,106 @@
+Apache Airflow:
+===============
+Worfklow and scheduling tool - for orchestration.
+Written in Python, open-source.
+Programatically or using a GUI schedule, author and monitor workflows.
+Airflow a platform that helps define, monitor and execute workflows.
+	Workflow is a sequence of steps that you take to accomplish a certain objective.
+
+DAG: Directed Acyclic Graph:
+============================
+DAG is used to represent the structure of basic blocks, to visualize the flow of values between blocks.
+DAG is type of a data structure.
+
+Fundamentals of Apache Airflow:
+===============================
+1. DAG:
+workflows are generally defined with the help of DAG.
+DAGs are created of those tasks that are to be executed along with associated dependencies.
+Directed: If you have several tasks that further have dependencies, each of them would require at least one specific upstream task or downstream task.
+Acyclic: Tasks are not allowed to create data with self-references. So as to avoid infinite loop.
+Graph: Tasks are generally in a logical structure with precisely defined relationships and association with other tasks.
+
+2. DAG Run:
+When a DAG (workflow) is executed, it is known as a "DAG Run".
+If you have a DAG scheduled to run every hour on the hour.
+There could be several DAG runs connected to one DAG running simultaneously.
+
+3. Task:
+Tasks may very in terms of complexity. They are work units that are showcased by nodes in a DAG.
+They illustrate the work that is completed at every step of the workflow.
+
+4. Airflow Operators:
+Operators are meant to define the work. It's like a class or a template that helps execute a specific task.
+There are quite a few operators for a variety of tasks:
+- PythonOperator
+- BashOperator
+- MySqlOperator
+- EmailOperator
+
+There are three primary types of operators:
+i. Operators that can run until specific conditions are fulfilled.
+ii. Operators that execute an action or request a different system to execute an action.
+iii. Operators that can move data from one system to another.
+
+5. Hooks:
+Hooks enable Airflow to interface with thrid-party (external) systems.
+You can connect to external APIs, DBs (Hive, MySQL, SQL Server....).
+
+6. Relationships:
+Relationship between tasks.
+For e.g.; T1 should execute before T2.... T1 >> T2 or T2 << T1 or T1.set_downstream(T2) or T2.set_upstream(T1)
+
+Sample DAG:
+
+from airflow.models import DAG
+from airflow.utils.dates import days_agowith DAG (
+	"etl_sales_daily",
+	start_date=days_ago(1),
+	schedule_interval=None
+) as dag:
+....
+....
+
+DAG is identified by unique "dag_id", which has to be unique in the whole Airflow deployment.
+schedule_interval: defines when the DAG should be run. For e.g.; timedelta(days=2) or a string cron expression 2 5 * * *. "None" means it will not be scheduled, but it can be triggered manually.
+start_date: a date from which the DAG will start running. Very common to use the days_ago() function. If you specify future date, you can trigger manually.
+
+from airflow.models import DAG
+from airflow.utils.dates import days_agowith DAG (
+	"etl_sales_daily",
+	start_date=days_ago(1),
+	schedule_interval=None
+) as dag:
+	task_a = DummyOperator(task_id="task-a")
+	task_b = DummyOperator(task_id="task-b")
+	task_c = DummyOperator(task_id="task-c")
+	task_d = DummyOperator(task_id="task-d")
+	task_a >> [task_b, task_c]
+	task_c >> task_d
+	
+Trigger Rules:
+all_success: all tasks in the upstream for a task have to succeed before Airflow attempts to execute this task.
+one_success: one succeeded task in the upstream is enough to trigger a task.
+none_failed: each task in the upstream has to either succeed or be skipped, no failed tasks are allowed to trigger this task.
+
+Deployment of Airflow:
+----------------------
+Airflow is a distributed system, but you can run it on a single machine as well.
+Has these parts:
+- Scheduler: the brain and heart of Airflow. Is responsible for parsing DAG files, managing database state and for scheduling the tasks.
+- Webserver: interface of Airflow where you can manage and monitor the DAGs.
+- Worker: known as a "CELERY" worker application which consumes and executes the tasks scheduled by the scheduler.
+
+To create DAGs:
+- create a folder for your project
+- create a folder called "dags" in that project folder
+
+airflow webserver -p 8081
+airflow scheduler
+airflow tasks list <dag_name>
+airflow dags pause <dag_name>
+airflow dags unpause <dag_name>
+ariflow dags backfill <dag_name> --start-date <date> --end-date <date>
+ariflow dags backfill <dag_name> -s <date> -e <date>
+
+/home/<username>/.local/lib/python3.8/site-packages/airflow/example_dags

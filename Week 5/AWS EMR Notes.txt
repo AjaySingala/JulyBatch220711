@@ -1,0 +1,142 @@
+AWS EMR:
+========
+EMR = Elastic MapReduce
+
+Node Types on the EMR (Spark) Cluster:
+1. Master Node:
+	- Manages the cluster.
+	- Single EC2 instance.
+2. Core Node:
+	- Each cluster can have one or more core nodes.
+	- Hosts HDFS data.
+	- Also capable of running tasks.
+	- both, storage and compute.
+3. Task Node:
+	- Can only run tasks (only compute).
+	- Cannot host any data.
+	
+If you create a cluster of 5 servers (EC2 instances): 
+	1 MN
+	2 CN
+	2 TN
+	
+Submitting jobs to the cluster:
+1. AWS CLI
+	- copy the .jar file on S3.
+	- copy data files to HDFS or S3 (S3 is preferred).
+2. Do it manually: spark-submit
+	- Build your code locally (or wherever).
+	- copy the jar file and any other dependencies to the master node (using scp).
+		- you can either copy the files to the master node so that they are accessible locally on the node.
+		- or copy them on to S3 for easy access (preferred).
+		- or both:
+			- copy the .jar file on the node.
+			- copy data files to HDFS or S3 (S3 is preferred).
+	- SSH (PuTTY?) to the master node and run the spark-submit job.
+3. Run jobs from the EMR Console.
+	- instead of doing an SSH to the master node, you run the job from the EMR console.
+	- copy the .jar file on S3.
+	- copy data files to HDFS or S3 (S3 is preferred).
+4. Using Amazon EMR API
+	- requires some advance programming.
+	- you have to write code to call the API.
+
+STOPPED vs TERMINATED:
+	Stopped - can be restarted.
+	Terminated - cannot be restarted / reused. You have to create a new one.
+
+EMR Cluster cannot be "stopped".
+It is either running (status is "Waiting") or it is "terminated".
+
+Transient and Long Running Cluster:
+-----------------------------------
+Transient cluster auto-terminates when all the steps are done.
+Long running cluster (LRC), we must terminate manually.
+
+Scenario: A reporting spark job that runs at 12:00 pm daily. Do the job and terminate. Runs only once a day.
+Go with a Transient cluster.
+
+If we go with a Long Running Cluster, after the job finishes, the cluster (with the EC instances keeps running) incurs cost!!!
+EMR is quite expensive!!!
+
+LRC is used when you want to some R&D or analysis etc. Make sure you terminate it when not in use to avoid recurring charges.
+
+What if you keep the data files on the cluster on HDFS?
+	- you will lose all the files when you terminate the cluster!!!
+	- so, everytime you create a new cluster, you have to copy the data files to HDFS as well.
+	- better to keep all files in S3.
+		- even if cluster is terminated, files are still available on S3.
+	
+Scalability & flexibility:
+	- you have cluster with 5 nodes - 1MN, 2CN, 2TN.
+	- you can easily change the config and create a new cluster in the next run with more nodes: 1MN 2CN, 4TN
+	
+	- you have cluster with 5 nodes - 1MN, 3CN, 8TN.
+	- you can easily change the config and create a new cluster in the next run with more nodes: 1MN 2CN, 3TN
+
+EMR Launch Modes:
+Cluster Mode: Create the cluster and submit jobs manually. May not terminate immediately, depends on config selected.
+Step Execution Mode: Create the cluster, run the steps (job), and terminate.
+
+EMR Cluster:
+ajs-emr-20220811
+Logs: s3://aws-logs-855430746673-us-east-1/elasticmapreduce/
+
+You need an EC2 Key-Pair to remotely connect (SSH) to the cluster's master node.
+So any EC2 instance requires an EC2 Key-Pair associated with it to be able to SSH / RDP to it.
+
+On-demand vs Spot instances:
+----------------------------
+On-demand instance: what you ask for, you get it at the price you agreed.
+Spot instance: like an auction.
+	AWS has many many servers and VMs (instances) available.
+	Majority of them are un-utilized, lying idle!!!!
+	AWS offers some of these at a high discount rate.
+	This discount is upto ~90%.
+	You bid a price for the instance.
+	The one with the max bid gets that instance.
+	If someone else in the next round of bidding bids a higher price than what you have given, you may lose that instance.
+	For e.g.; you got an instance for $0.81 per hour.
+	After 2 hours, someone else bids $0.84 per hour. ===> you will probably lose the instance.
+	AWS notifies you about "losing" the instance to save your work or re-bid higher price.
+	
+	Task nodes can be Spot instances.
+	
+Configure Executors:
+====================
+val spark = SparkSession()....getOrCreate()
+spark.conf.set("spark.executor.instances", 4)
+spark.conf.set("spark.executor.cores", 2)
+spark.conf.set("spark.executor.memory", 16)
+
+spark-submit ./some-program.jar --class example.demo \
+	--deploy-mode cluster \
+	--driver-memory 8g \
+	--exeuctor-memory 16g \
+	--executor-cores 2 \
+	--num-executors 4
+
+Caching:
+========
+rdd.cache()			== caching is MEMORY_ONLY
+rdd.persist()		== has more options as below.
+
+By default caching is in memory. But can be changed.
+
+Types of storage levels for persisted RDDs:
+-------------------------------------------
+MEMORY_ONLY: RDD is stored as deserialized Java object in the JVM. If the size of the RDD is greater than the available memory, it will not cache some partition. It will recompute them next time whenever needed. The space used for storage is very high, the CPU computation time is low, the data is stored in-memory. It does not make use of disk.
+
+MEMORY_AND_DISK: RDD is stored as deserialized Java object in the JVM. When the size of the RDD is > the available memory, it stores the excess partition(s) on the disk, and retrieves it from disk whenever required. The space used for storage is high, CPU computation time is medium, it makes use of both - in-memory and disk storage.
+
+MEMORY_ONLY_SER: RDD is stored as serialized Java object. It is more space effiecient as compared to deserialized objects. But it increases the overhead on CPU (as it has to deserialize). Storage space is low, CPU computation time is high, the data is stored in-memory. It does not make use of disk.
+
+MEMORY_AND_DISK_SER: Very similar to MEMORY_ONLY_SER, but it drops the partition that does not fit into memory to disk. Space used for storage is low, CPU computation is high, it makes use of both - in-memory and disk storage.
+
+DISK_ONLY: RDD is stored on disk only. The space used for storage is low, CPU computation time is high, makes use if disk storage.
+
+df.persist(StorageLevel.MEMORY_ONLY_SER)
+
+df = spark.read.csv("some.csv")
+df.persist(DISK_ONLY)
+
