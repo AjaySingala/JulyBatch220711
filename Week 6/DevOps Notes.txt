@@ -1,0 +1,110 @@
+DevOps:
+=======
+DEVelopment + OPerationS.
+
+Separate teams for developers and operations.
+Devs: programmers / engineers who write code.
+Ops: deploy the application to servers.
+
+Dev team would be ready with some featues of the application and they "probably would have" tested the features before giving it to the testing team for system testing.
+
+DEV team informs the OPS team about the app to be deployed.
+OPS team will take the code (from the repo), build it, package it, deploy it to the TEST env.
+Once deployed, OPS team informs the DEV team about it.
+The DEV team in turn informs the TEST team that the TEST env is ready for testing.
+TEST team starts their testing.
+
+Again, after a few days, DEV team is ready with more features and the steps are repeated again.
+
+After a few weeks, a milestone is reached and the app is to be deployed to UAT (User Acceptance Testing).
+Once UAT is approved, the system is to be deployed to PROD env (for go-live).
+
+Usually, the OPS team is very small.
+There are 2-3 (or less) OPS engineers who take care of multiple projects and teams.
+Team A asks the OPS team to deploy their app to TEST, the OPS team may be busy with deployment of some other team's work.
+Also, deployment used to happen manually.
+
+This is where the importance of "automation" was highlighted.
+What if deployment was automated?
+
+With automation, OPS team merge with the DEV team.
+Also, DEVs are required to know how OPS works and OPS are required to know a bit of programming / scripting to create the automation process.
+And this is how, they together become DevOps!
+
+Due to DevOps Automation, turn around time for deploying applications has become much faster.
+
+Usually, the Program / Product Manager provides approvals to deploy to the "next" environment.
+
+Code Repository:
+================
+DEVs are not supposed to commit any code directly on the "main" branch.
+In fact, DEVs won't have even have write access to the "main" branch.
+A "dev" branch is created from the "main" branch for all developers to use.
+DEVs cannot directly commit code to the "dev" branch as well. They have to do it via a "feature' branch.
+	Each DEV is supposed to create a "feature" branch and commit all their code for a particular use case (feature) to this branch only!
+	Once they are done with their feature development and all their code is in their respective "feature" branch, they create a "PULL REQUEST" (PR).
+		Ths PR is to be approved by a senior dev or lead or architect etc.
+		Only if the PR is approved, does the "feature" branch code get merged into the DEV branch.
+		
+
+One of the things as prt of PR approval is "unit tests".
+Has the DEV completed unit testing?
+If it (unit testing) is done manually, then it is difficult to keep a track of it. Basically, you have to "trust" the DEV whne they say "I have done my unit testing".
+
+Testers: Do not test if the code works! They test if the code "fails"!!!!
+
+Unit testing: automated testing of components. Whatever code has been written must be tested!!!
+Code coverage has to be close to 100%.
+All functions that have been written must be unit tested.
+All functions must be tested with postive as well negative tests.
+
+scenario: Login screen.
+username - min. 5 chars
+password - min. 8 chars, must start with an alphabet, must contain alphabets lower and uppercase, at least 1 digit and 1 special charachter ($ % # ! @ etc.)
+If username does not exist, error "Invalid username".
+If password does not match, error "Invalid password".
+If password does not meet requirement, "Password not as per required format".
+
+login(username, password) {
+	code to validate.
+	if(user not valid) 
+		error "Invalid username".
+		return false
+
+	If (password does not match) 
+		error "Invalid password".
+		return false
+		
+	If (password does not meet requirement) 
+		error "Password not as per required format".
+		return false
+	
+	return true
+}
+
+unit test cases to test this login() function.
+TC1: val returnVal = login("ajaysingala", "AjaySinga1@")	
+	assert(returnVal, true)
+TC2: val returnVal = login("ajay", "AjaySinga1@")
+	assert(returnVal, false) 
+TC3: val returnVal = login("ajaysingala", "Ajaysinga1@")
+	assert(returnVal, false) 
+TC4: val returnVal = login("ajaysingala", "ajaySingala")
+	assert(returnVal, false) 
+	
+This way I can achieve close to 100% code coverage.
+
+The moment you create a PR, it triggers an intermediate build + unit test run on your code.
+	1. does the build succeed?
+	2. Does the unit tests succeed?
+	If yes, create the PR and inform the approver.
+	If no, reject the PR.
+	
+	So your code should work. Also, it should not break any other code or unit tests!!!
+	
+So, DEVs must run ALL unit tests locally before creating PR to ensure nothing breaks!!!
+
+Automated System Testing:
+=========================
+Project Teams create automated system tests. They write scripts that will run tests automatically after deployment.
+Selenium: used for creating automated system test scripts.
