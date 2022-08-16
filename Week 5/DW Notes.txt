@@ -44,7 +44,7 @@ Integrated:
 -----------
 A DW is developed by getting (integrating) data from various sources and not necessarily just one DB (data source).
 And the data has to be in a consistent format.
-The data that is stored in the DW must be in a consistent and stored in a manner that is acceptable universally (accepted by all stakeholders) in terms of naming conventions, coding.
+The data that is stored in the DW must be in a consistent format and stored in a manner that is acceptable universally (accepted by all stakeholders) in terms of naming conventions, coding.
 Facilitates effective data analysis.
 
 Non-Volatile:

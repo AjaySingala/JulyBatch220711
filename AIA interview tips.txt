@@ -1,0 +1,51 @@
+Focus more on:
+1. SQL
+	- types of joins.
+	- being able explain and write basic JOIN queries - INNER, LEFT OUTER, RIGHT OUTER
+	- GROUP BY etc.
+	- sub-queries
+2. Basics of DW:
+	What is DW?
+	OLTP vs OLAP
+	Dimensional modeling
+		Facts
+		Dimensions
+	Star Schema
+	Snowflake Schema
+	Slowly Changing Dimensions (SCD)
+	Data Mapping Document
+		- How to do data mapping?
+3. Scala+Spark:
+	RDD, DF, DS
+	Write basic transformations and actions.
+	Reading and writing csv (with headers).
+	Diff file formats: text files, csv, json, parquet.
+	How to do joins in SparkSQL.
+4. Python:
+	Basic python stuff.
+	Modules, pip.
+	Basic operations using Python.
+	PySpark.
+	
+For SQL, on the Employees DB:
+https://dev.mysql.com/doc/employee/en/
+- run at least 10 queries for analysis
+- Which employees belong to which department?
+- How many empployees in each department?
+- Who are the top 5 employees (salary)?
+- Who are the bottom 5 employees (salary)?
+- Who are the top 5 employees (salary) in each department or a specific department?
+- Who are the bottom 5 employees (salary) in each department or a specific department?
+- Which department has no employees?
+- Which employees do not belong to a Department?
+
+Self-Join:
+==========
+Create a table with this schema:
+EmployeeId
+Firstname
+Lastname
+ReportsTo
+
+Write a query using a SELF-JOIN to list all employees and the name of their Reporting Manager.
+ 
