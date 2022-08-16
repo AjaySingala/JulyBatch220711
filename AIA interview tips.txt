@@ -26,7 +26,8 @@ Focus more on:
 	Modules, pip.
 	Basic operations using Python.
 	PySpark.
-	
+5. Unit Testing and DevOps.
+
 For SQL, on the Employees DB:
 https://dev.mysql.com/doc/employee/en/
 - run at least 10 queries for analysis
