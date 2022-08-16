@@ -3,7 +3,8 @@ Focus more on:
 	- types of joins.
 	- being able explain and write basic JOIN queries - INNER, LEFT OUTER, RIGHT OUTER
 	- GROUP BY etc.
-	- sub-queries
+	- sub-queries.
+	- RANK functions.
 2. Basics of DW:
 	What is DW?
 	OLTP vs OLAP
@@ -43,10 +44,7 @@ https://dev.mysql.com/doc/employee/en/
 Self-Join:
 ==========
 Create a table with this schema:
-EmployeeId
-Firstname
-Lastname
-ReportsTo
+EmployeeId	Firstname	Lastname	ReportsTo
 
 Write a query using a SELF-JOIN to list all employees and the name of their Reporting Manager.
  
